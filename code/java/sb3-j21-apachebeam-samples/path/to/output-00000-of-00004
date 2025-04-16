@@ -1,0 +1,17 @@
+create: 2
+sdk: 8
+read: 1
+l: 1
+run: 1
+if: 1
+writecounts: 1
+options: 4
+io: 1
+for: 1
+extractwords: 1
+void: 3
+readlines: 1
+txt: 1
+getvalue: 1
+values: 1
+pipelineoptions: 2

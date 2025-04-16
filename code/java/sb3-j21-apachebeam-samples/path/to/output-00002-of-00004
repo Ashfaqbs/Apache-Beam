@@ -1,0 +1,12 @@
+of: 2
+pipelineoptionsfactory: 2
+textio: 3
+org: 8
+words: 2
+perelement: 1
+long: 2
+split: 1
+from: 1
+isempty: 1
+write: 1
+processelement: 4
