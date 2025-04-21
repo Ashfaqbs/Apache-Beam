@@ -1,0 +1,18 @@
+pipeline:
+  transforms:
+    - type: ReadFromCsv
+      config:
+        path: input.csv
+    - type: Filter
+      config:
+        language: python
+        keep: "col3 > 100"
+      input: ReadFromCsv
+    - type: Sql
+      config:
+        query: "select col1, count(*) as cnt from PCOLLECTION group by col1"
+      input: Filter
+    - type: WriteToJson
+      config:
+        path: output.json
+      input: Sql
