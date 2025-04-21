@@ -1,0 +1,13 @@
+already :
+
+Ubuntu-VM% java --version
+openjdk 17.0.15 2025-04-15 LTS
+OpenJDK Runtime Environment Zulu17.58+21-CA (build 17.0.15+6-LTS)
+OpenJDK 64-Bit Server VM Zulu17.58+21-CA (build 17.0.15+6-LTS, mixed mode, sharing)
+
+
+Ubuntu-VM% python --version
+Python 3.10.12
+Ubuntu-VM%   lets create py beamenv 
+
+created an env and installed apache_beam[yaml] with timeout  running jobs
