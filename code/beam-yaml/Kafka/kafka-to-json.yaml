@@ -1,0 +1,26 @@
+pipeline:
+  type: chain
+  windowing:
+    type: fixed
+    size: 10  # 10-second windows
+  transforms:
+    - type: ReadFromKafka
+      name: ReadKafka
+      config:
+        topic: "my-topic"
+        bootstrap_servers: "localhost:9092"
+        format: RAW
+        consumer_config_updates:
+          group.id: beam-test-group
+          auto.offset.reset: earliest
+          consumer.poll.timeout.ms: "10000"
+    - type: MapToFields
+      name: FormatAsJson
+      config:
+        language: python
+        fields:
+          value: "str(payload)"
+    - type: WriteToJson
+      name: WriteJson
+      config:
+        path: output.json
