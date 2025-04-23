@@ -1,0 +1,27 @@
+
+# 1.  Kafka to logging example
+
+pipeline:
+  type: chain
+  transforms:
+    - type: ReadFromKafka
+      name: KafkaSource
+      config:
+        topic: "my-topic"
+        bootstrap_servers: "localhost:9092"
+        format: RAW
+        consumer_config:
+          auto.offset.reset: earliest
+          consumer_poll_timeout_ms: "10000"
+
+    - type: MapToFields
+      name: DecodePayload
+      config:
+        language: python                         # declare Python expressions :contentReference[oaicite:0]{index=0}
+        fields:
+          payload: "payload.decode('utf-8')"      # refer to the 'payload' field directly :contentReference[oaicite:1]{index=1}
+
+    - type: LogForTesting
+      name: DebugLog
+
+

@@ -1,0 +1,33 @@
+pipeline:
+  transforms:
+    - type: ReadFromKafka
+      config:
+        topic: "my-topic"
+        bootstrap_servers: "localhost:9092"
+        format: RAW
+        auto_offset_reset_config: "earliest"
+        consumer_config_updates:
+          group.id: "beam-kafka-consumer-group-unique-1"
+
+    - type: MapToFields
+      config:
+        fields:
+          message: "element.payload.decode('utf-8')"
+        language: python
+        append: false
+      input: ReadFromKafka
+
+    - type: MapToFields  # Using MapToFields instead of Map
+      name: ExtractMessage
+      config:
+        fields:
+          extracted_message: "element['message']"  # New field name
+        language: python
+        append: false
+      input: MapToFields
+
+    - type: LogForTesting
+      config:
+        # log_level: INFO
+        prefix: "Kafka message: "
+      input: ExtractMessage
