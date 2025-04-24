@@ -1,0 +1,198 @@
+
+(beamenv) Ubuntu-VM% docker exec -it docker-taskmanager-1 bash
+root@86eba2fefa40:/opt/flink# apt-get update && apt-get install -y docker.io
+Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]              
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]              
+Get:3 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [47.7 kB]
+Get:4 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2,844 kB]
+Get:5 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB].
+root@86eba2fefa40:/opt/flink# docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                                                   NAMES
+2e8e63273454   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   6123/tcp, 8081/tcp                                                      ......
+.ster/zookeeper:latest   "/bin/sh -c '/usr/sb…"   4 minutes ago   Up 4 minutes   22/tcp, 2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp   docker-zookeeper-1
+b5017e684c7c   wurstmeister/kafka:latest       "start-kafka.sh"         4 minutes ago   Up 4 minutes   0.0.0.0:9092->9092/tcp, :::9092->9092/tcp, 9093/tcp                     docker-kafka-1
+root@86eba2fefa40:/opt/flink# 
+
+same thing did for jobmanager and docker ps is working fine.
+
+and in docker compose user is root for flink 
+
+ jobmanager:
+    image: apache/flink:1.19.2-java17
+    user: root
+
+taskmanager:
+    image: apache/flink:1.19.2-java17
+    user: root
+
+
+
+
+
+LOG :
+
+
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 1 artifacts for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.0:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:06 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 resolveNextEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Resolving artifacts for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.0:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:06 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 1 artifacts for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.1:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:09 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 resolveNextEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Resolving artifacts for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.1:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:09 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 0 artifacts for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.null.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:09 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 finishStaging
+INFO:apache_beam.utils.subprocess_server:INFO: Artifacts fully staged for job_b9d999dd-67c1-4b18-a7c6-bc434239f5a0.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:10 PM org.apache.beam.runners.flink.FlinkJobInvoker invokeWithExecutor
+INFO:apache_beam.utils.subprocess_server:INFO: Invoking job BeamApp-ashu-0424165210-f402394c_3d5a0761-c80c-4184-8b7c-4f221e0fdae6 with pipeline runner org.apache.beam.runners.flink.FlinkPipelineRunner@691721cc
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:11 PM org.apache.beam.runners.jobsubmission.JobInvocation start
+INFO:apache_beam.utils.subprocess_server:INFO: Starting job invocation BeamApp-ashu-0424165210-f402394c_3d5a0761-c80c-4184-8b7c-4f221e0fdae6
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to STOPPED
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to STARTING
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to RUNNING
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:11 PM org.apache.beam.runners.flink.FlinkPipelineRunner runPipelineWithTranslator
+INFO:apache_beam.utils.subprocess_server:INFO: Translating pipeline to Flink program.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:11 PM org.apache.beam.runners.flink.FlinkExecutionEnvironments createStreamExecutionEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Creating a Streaming Environment.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:11 PM org.apache.beam.runners.flink.FlinkExecutionEnvironments createStreamExecutionEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Using Flink Master URL localhost:8081.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:17 PM org.apache.flink.api.java.typeutils.TypeExtractor analyzePojo
+INFO:apache_beam.utils.subprocess_server:INFO: No fields were detected for class org.apache.beam.sdk.util.WindowedValue so it cannot be used as a POJO type and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:19 PM org.apache.flink.client.program.rest.RestClusterClient lambda$submitJob$7
+INFO:apache_beam.utils.subprocess_server:INFO: Submitting job 'BeamApp-ashu-0424165210-f402394c' (61b1f7598da21f124bba05b925c11135).
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:34 PM org.apache.flink.client.program.rest.RestClusterClient lambda$null$6
+INFO:apache_beam.utils.subprocess_server:INFO: Successfully submitted job 'BeamApp-ashu-0424165210-f402394c' (61b1f7598da21f124bba05b925c11135) to 'http://localhost:8081'.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 10:22:46 PM org.apache.beam.runners.jobsubmission.JobInvocation$1 onFailure
+INFO:apache_beam.utils.subprocess_server:SEVERE: Error during job invocation BeamApp-ashu-0424165210-f402394c_3d5a0761-c80c-4184-8b7c-4f221e0fdae6.
+INFO:apache_beam.utils.subprocess_server:org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 61b1f7598da21f124bba05b925c11135)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$null$6(ClusterClientJobClientAdapter.java:130)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:646)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.util.concurrent.FutureUtils.lambda$retryOperationWithDelay$6(FutureUtils.java:302)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$35(RestClusterClient.java:901)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.util.concurrent.FutureUtils.lambda$retryOperationWithDelay$6(FutureUtils.java:302)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:614)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1163)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:482)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.Thread.run(Thread.java:840)
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$null$6(ClusterClientJobClientAdapter.java:128)
+INFO:apache_beam.utils.subprocess_server:       ... 23 more
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:180)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:107)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:277)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:268)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:261)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:787)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:764)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:488)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:309)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:307)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:222)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:85)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:168)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.util.concurrent.UncheckedExecutionException: java.io.IOException: Cannot run program "docker": error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5022)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$1.call(StreamTaskActionExecutor.java:55)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreInternal(StreamTask.java:753)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restore(StreamTask.java:712)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring(Task.java:958)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke(Task.java:927)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.doRun(Task.java:751)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.run(Task.java:566)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.Thread.run(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:Caused by: java.io.IOException: Cannot run program "docker": error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessBuilder.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessBuilder.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:207)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:181)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runImage(DockerCommand.java:104)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:133)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:259)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:232)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3571)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2313)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2190)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2080)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+INFO:apache_beam.utils.subprocess_server:       ... 17 more
+INFO:apache_beam.utils.subprocess_server:Caused by: java.io.IOException: error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.<init>(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       ... 33 more
+INFO:apache_beam.utils.subprocess_server:
+ERROR:root:java.io.IOException: error=2, No such file or directory
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to FAILED
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 183, in <module>
+    run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 127, in run
+    with beam.Pipeline(options=options, display_data=display_data) as p:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 646, in __exit__
+    self.result.wait_until_finish()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 569, in wait_until_finish
+    raise self._runtime_exception
+RuntimeError: Pipeline BeamApp-ashu-0424165210-f402394c_3d5a0761-c80c-4184-8b7c-4f221e0fdae6 failed in state FAILED: java.io.IOException: error=2, No such file or directory
+(beamenv) Ubuntu-VM% 
