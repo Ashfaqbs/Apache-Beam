@@ -1,0 +1,286 @@
+
+Ubuntu-VM% java --version
+openjdk 17.0.15 2025-04-15 LTS
+OpenJDK Runtime Environment Zulu17.58+21-CA (build 17.0.15+6-LTS)
+OpenJDK 64-Bit Server VM Zulu17.58+21-CA (build 17.0.15+6-LTS, mixed mode, sharing)
+
+
+Ubuntu-VM% python --version
+Python 3.10.12
+Ubuntu-VM%    created  beamenv, installed apache_beam[yaml]
+
+
+
+docker ps 
+
+
+Ubuntu-VM% docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                                                     NAMES
+5465cd32282f   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   8 minutes ago   Up 8 minutes   6123/tcp, 8081/tcp                                                        docker-taskmanager-2
+2d2c1bfb45bb   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   8 minutes ago   Up 8 minutes   6123/tcp, 8081/tcp                                                        docker-taskmanager-1
+6836ee19acff   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   8 minutes ago   Up 8 minutes   6123/tcp, 0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp                     docker-jobmanager-1
+1f3f35971446   wurstmeister/kafka:latest       "start-kafka.sh"         8 minutes ago   Up 8 minutes   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp, 9093/tcp                     docker-kafka-1
+b3525e3631d9   wurstmeister/zookeeper:latest   "/bin/sh -c '/usr/sb…"   8 minutes ago   Up 8 minutes   22/tcp, 2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp   docker-zookeeper-1
+Ubuntu-VM% 
+
+but postrunning 
+
+
+
+(beamenv) Ubuntu-VM% python3 -m apache_beam.yaml.main --yaml_pipeline_file=pipe3.yaml --runner=FlinkRunner --flink_master=localhost:8081   
+Building pipeline...
+INFO:apache_beam.yaml.yaml_transform:Expanding "ReadJson" at line 6 
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-sdks-java-io-expansion-service/2.64.0/beam-sdks-java-io-expansion-service-2.64.0.jar
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Starting service with ['/home/ashu/Desktop/Ash/java/zulu17.58.21-ca-jdk17.0.15-linux_x64/bin/java' '-jar' '/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '58177' '--filesToStage=/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '--alsoStartLoopbackWorker']
+INFO:apache_beam.utils.subprocess_server:Starting expansion service at localhost:58177
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:18 PM org.apache.beam.sdk.expansion.service.ExpansionService loadRegisteredTransforms
+INFO:apache_beam.utils.subprocess_server:INFO: Registering external transforms: [beam:transform:org.apache.beam:kafka_write:v2, beam:transform:org.apache.beam:kafka_read_with_metadata:v2, beam:transform:org.apache.beam:kafka_write:v1, beam:transform:combine_grouped_values:v1, beam:schematransform:org.apache.beam:iceberg_read:v1, beam:transform:combine_globally:v1, beam:external:java:generate_sequence:v1, beam:transform:redistribute_by_key:v1, beam:transform:window_into:v1, beam:schematransform:org.apache.beam:kafka_read:v1, beam:schematransform:org.apache.beam:kafka_write:v1, beam:schematransform:org.apache.beam:iceberg_cdc_read:v1, beam:transform:combine_per_key:v1, beam:transform:org.apache.beam:kafka_read_with_metadata:v1, beam:transform:group_by_key:v1, beam:transform:group_into_batches:v1, beam:transform:group_into_batches_with_sharded_key:v1, beam:transform:create_view:v1, beam:transform:teststream:v1, beam:transform:sdf_process_keyed_elements:v1, beam:schematransform:org.apache.beam:iceberg_write:v1, beam:transform:flatten:v1, beam:transform:impulse:v1, beam:runners_core:transforms:splittable_process:v1, beam:transform:write_files:v1, beam:transform:org.apache.beam:kafka_read_without_metadata:v1, beam:transform:managed:v1, beam:transform:redistribute_arbitrarily:v1, beam:transform:reshuffle:v1]
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered transforms:
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@5f7b97da
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18b0930f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@6b7906b3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_grouped_values:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a1dd365
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@395b56bb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_globally:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@256f8274
+INFO:apache_beam.utils.subprocess_server:       beam:external:java:generate_sequence:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@68044f4
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52d239ba
+INFO:apache_beam.utils.subprocess_server:       beam:transform:window_into:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@315f43d5
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68fa0ba8
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@6c5945a7
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2f05be7f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_per_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@640f11a1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@5c10f1c3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@7ac2e39b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@78365cfa
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches_with_sharded_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@64a8c844
+INFO:apache_beam.utils.subprocess_server:       beam:transform:create_view:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3f6db3fb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:teststream:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52de51b6
+INFO:apache_beam.utils.subprocess_server:       beam:transform:sdf_process_keyed_elements:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18c5069b
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a0d172f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:flatten:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68ad99fe
+INFO:apache_beam.utils.subprocess_server:       beam:transform:impulse:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@485e36bc
+INFO:apache_beam.utils.subprocess_server:       beam:runners_core:transforms:splittable_process:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@781f10f2
+INFO:apache_beam.utils.subprocess_server:       beam:transform:write_files:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2a79d4b1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_without_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@2e9fda69
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@17cdf2d0
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_arbitrarily:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@1755e85b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:reshuffle:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@736d6a5c
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered SchemaTransformProviders:
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:filter-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:flatten:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:map_to_fields-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:log_for_testing:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:test_schematransform:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:window_into_strategy:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:generate_sequence:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:explode:v1
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:20 PM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'ReadJson/beam:schematransform:org.apache.beam:kafka_read:v1' with URN 'beam:expansion:payload:schematransform:v1'
+INFO:apache_beam.yaml.yaml_transform:Expanding "UppercaseName" at line 18 
+INFO:apache_beam.yaml.yaml_transform:Expanding "WriteJson" at line 29 
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:26 PM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'WriteJson/beam:schematransform:org.apache.beam:kafka_write:v1' with URN 'beam:expansion:payload:schematransform:v1'
+Running pipeline...
+INFO:apache_beam.runners.portability.flink_runner:Adding HTTP protocol scheme to flink_master parameter: http://localhost:8081
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-runners-flink-1.19-job-server/2.64.0/beam-runners-flink-1.19-job-server-2.64.0.jar
+INFO:apache_beam.utils.subprocess_server:Starting service with ('java' '-jar' '/home/ashu/.apache_beam/cache/jars/beam-runners-flink-1.19-job-server-2.64.0.jar' '--flink-master' 'http://localhost:8081' '--artifacts-dir' '/tmp/beam-tempbeiouryl/artifacts0aemtxp6' '--job-port' '38659' '--artifact-port' '0' '--expansion-port' '0')
+INFO:apache_beam.utils.subprocess_server:SLF4J(W): Class path contains multiple SLF4J providers.
+INFO:apache_beam.utils.subprocess_server:SLF4J(W): Found provider [org.slf4j.jul.JULServiceProvider@3e3abc88]
+INFO:apache_beam.utils.subprocess_server:SLF4J(W): Found provider [org.slf4j.simple.SimpleServiceProvider@6ce253f1]
+INFO:apache_beam.utils.subprocess_server:SLF4J(W): See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+INFO:apache_beam.utils.subprocess_server:SLF4J(I): Actual provider is of type [org.slf4j.jul.JULServiceProvider@3e3abc88]
+WARNING:root:Waiting for grpc channel to be ready at localhost:38659.
+WARNING:root:Waiting for grpc channel to be ready at localhost:38659.
+WARNING:root:Waiting for grpc channel to be ready at localhost:38659.
+WARNING:root:Waiting for grpc channel to be ready at localhost:38659.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:41 PM org.apache.beam.runners.jobsubmission.JobServerDriver createArtifactStagingService
+INFO:apache_beam.utils.subprocess_server:INFO: ArtifactStagingService started on localhost:42497
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:41 PM org.apache.beam.runners.jobsubmission.JobServerDriver createExpansionService
+INFO:apache_beam.utils.subprocess_server:INFO: Java ExpansionService started on localhost:42211
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:41 PM org.apache.beam.runners.jobsubmission.JobServerDriver createJobServer
+INFO:apache_beam.utils.subprocess_server:INFO: JobService started on localhost:38659
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:41 PM org.apache.beam.runners.jobsubmission.JobServerDriver run
+INFO:apache_beam.utils.subprocess_server:INFO: Job server now running, terminate with Ctrl+C
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:42 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Staging artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:42 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 resolveNextEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Resolving artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.0:ref_Environment_default_environment_2.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:42 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 1 artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.0:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:42 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 resolveNextEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Resolving artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.0:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:42 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 1 artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.1:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:46 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 resolveNextEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Resolving artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.1:external_1beam:env:anyof:v1.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:46 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 onNext
+INFO:apache_beam.utils.subprocess_server:INFO: Getting 0 artifacts for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.null.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:46 PM org.apache.beam.runners.fnexecution.artifact.ArtifactStagingService$2 finishStaging
+INFO:apache_beam.utils.subprocess_server:INFO: Artifacts fully staged for job_5450cb1c-5a37-43bc-8fc8-4419bb9548be.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:47 PM org.apache.beam.runners.flink.FlinkJobInvoker invokeWithExecutor
+INFO:apache_beam.utils.subprocess_server:INFO: Invoking job BeamApp-ashu-0424162046-55b173bb_76e87274-25e4-4632-b577-0cb9927ed7fb with pipeline runner org.apache.beam.runners.flink.FlinkPipelineRunner@11207fb6
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:47 PM org.apache.beam.runners.jobsubmission.JobInvocation start
+INFO:apache_beam.utils.subprocess_server:INFO: Starting job invocation BeamApp-ashu-0424162046-55b173bb_76e87274-25e4-4632-b577-0cb9927ed7fb
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:47 PM org.apache.beam.runners.flink.FlinkPipelineRunner runPipelineWithTranslator
+INFO:apache_beam.utils.subprocess_server:INFO: Translating pipeline to Flink program.
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to STOPPED
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to STARTING
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to RUNNING
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:47 PM org.apache.beam.runners.flink.FlinkExecutionEnvironments createStreamExecutionEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Creating a Streaming Environment.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:47 PM org.apache.beam.runners.flink.FlinkExecutionEnvironments createStreamExecutionEnvironment
+INFO:apache_beam.utils.subprocess_server:INFO: Using Flink Master URL localhost:8081.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:54 PM org.apache.flink.api.java.typeutils.TypeExtractor analyzePojo
+INFO:apache_beam.utils.subprocess_server:INFO: No fields were detected for class org.apache.beam.sdk.util.WindowedValue so it cannot be used as a POJO type and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:50:55 PM org.apache.flink.client.program.rest.RestClusterClient lambda$submitJob$7
+INFO:apache_beam.utils.subprocess_server:INFO: Submitting job 'BeamApp-ashu-0424162046-55b173bb' (15a6511ad6469c40343b6a1d48ba8d9a).
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:51:06 PM org.apache.flink.client.program.rest.RestClusterClient lambda$null$6
+INFO:apache_beam.utils.subprocess_server:INFO: Successfully submitted job 'BeamApp-ashu-0424162046-55b173bb' (15a6511ad6469c40343b6a1d48ba8d9a) to 'http://localhost:8081'.
+INFO:apache_beam.utils.subprocess_server:Apr 24, 2025 9:51:18 PM org.apache.beam.runners.jobsubmission.JobInvocation$1 onFailure
+INFO:apache_beam.utils.subprocess_server:SEVERE: Error during job invocation BeamApp-ashu-0424162046-55b173bb_76e87274-25e4-4632-b577-0cb9927ed7fb.
+INFO:apache_beam.utils.subprocess_server:org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 15a6511ad6469c40343b6a1d48ba8d9a)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$null$6(ClusterClientJobClientAdapter.java:130)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:646)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.util.concurrent.FutureUtils.lambda$retryOperationWithDelay$6(FutureUtils.java:302)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$35(RestClusterClient.java:901)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2147)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.util.concurrent.FutureUtils.lambda$retryOperationWithDelay$6(FutureUtils.java:302)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:614)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1163)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:482)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.Thread.run(Thread.java:840)
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$null$6(ClusterClientJobClientAdapter.java:128)
+INFO:apache_beam.utils.subprocess_server:       ... 23 more
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:180)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:107)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:277)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:268)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:261)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:787)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:764)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:488)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:309)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:307)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:222)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:85)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:168)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+INFO:apache_beam.utils.subprocess_server:       at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:Caused by: org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.util.concurrent.UncheckedExecutionException: java.io.IOException: Cannot run program "docker": error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5022)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$SynchronizedStreamTaskActionExecutor.call(StreamTaskActionExecutor.java:100)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreInternal(StreamTask.java:753)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.streaming.runtime.tasks.StreamTask.restore(StreamTask.java:712)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring(Task.java:958)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke(Task.java:927)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.doRun(Task.java:751)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.flink.runtime.taskmanager.Task.run(Task.java:566)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.Thread.run(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:Caused by: java.io.IOException: Cannot run program "docker": error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessBuilder.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessBuilder.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:207)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:181)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerCommand.runImage(DockerCommand.java:104)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:133)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:259)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:232)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3571)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2313)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2190)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2080)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+INFO:apache_beam.utils.subprocess_server:       at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+INFO:apache_beam.utils.subprocess_server:       ... 17 more
+INFO:apache_beam.utils.subprocess_server:Caused by: java.io.IOException: error=2, No such file or directory
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.<init>(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       at java.base/java.lang.ProcessImpl.start(Unknown Source)
+INFO:apache_beam.utils.subprocess_server:       ... 33 more
+INFO:apache_beam.utils.subprocess_server:
+ERROR:root:java.io.IOException: error=2, No such file or directory
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to FAILED
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 183, in <module>
+    run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 127, in run
+    with beam.Pipeline(options=options, display_data=display_data) as p:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 646, in __exit__
+    self.result.wait_until_finish()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 569, in wait_until_finish
+    raise self._runtime_exception
+RuntimeError: Pipeline BeamApp-ashu-0424162046-55b173bb_76e87274-25e4-4632-b577-0cb9927ed7fb failed in state FAILED: java.io.IOException: error=2, No such file or directory
+(beamenv) Ubuntu-VM% 
+
+
+
+
+
