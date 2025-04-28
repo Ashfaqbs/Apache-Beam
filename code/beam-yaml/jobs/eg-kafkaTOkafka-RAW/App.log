@@ -1,0 +1,824 @@
+
+direct runner
+
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 593000000
+}
+message: "Kafka version: 3.9.0"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/SplitAndSizeRestriction"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 593000000
+}
+message: "Kafka commitId: 84caaa6e9da06435"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/SplitAndSizeRestriction"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 593000000
+}
+message: "Kafka startTimeMs: 1745391596593"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/SplitAndSizeRestriction"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 612000000
+}
+message: "[Consumer clientId=consumer-tracker-my-topic-0_offset_consumer_924475413_beam-mirror-001-3, groupId=tracker-my-topic-0_offset_consumer_924475413_beam-mirror-001] Cluster ID: gBHGC0rmRSCTXxDNeZIw5Q"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/SplitAndSizeRestriction"
+log_location: "org.apache.kafka.clients.Metadata"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 784000000
+}
+message: "ProducerConfig values: \n\tacks = -1\n\tauto.include.jmx.reporter = true\n\tbatch.size = 16384\n\tbootstrap.servers = [localhost:9092]\n\tbuffer.memory = 33554432\n\tclient.dns.lookup = use_all_dns_ips\n\tclient.id = producer-1\n\tcompression.gzip.level = -1\n\tcompression.lz4.level = 9\n\tcompression.type = none\n\tcompression.zstd.level = 3\n\tconnections.max.idle.ms = 540000\n\tdelivery.timeout.ms = 120000\n\tenable.idempotence = true\n\tenable.metrics.push = true\n\tinterceptor.classes = []\n\tkey.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer\n\tlinger.ms = 0\n\tmax.block.ms = 60000\n\tmax.in.flight.requests.per.connection = 5\n\tmax.request.size = 1048576\n\tmetadata.max.age.ms = 300000\n\tmetadata.max.idle.ms = 300000\n\tmetadata.recovery.strategy = none\n\tmetric.reporters = []\n\tmetrics.num.samples = 2\n\tmetrics.recording.level = INFO\n\tmetrics.sample.window.ms = 30000\n\tpartitioner.adaptive.partitioning.enable = true\n\tpartitioner.availability.timeout.ms = 0\n\tpartitioner.class = null\n\tpartitioner.ignore.keys = false\n\treceive.buffer.bytes = 32768\n\treconnect.backoff.max.ms = 1000\n\treconnect.backoff.ms = 50\n\trequest.timeout.ms = 30000\n\tretries = 3\n\tretry.backoff.max.ms = 1000\n\tretry.backoff.ms = 100\n\tsasl.client.callback.handler.class = null\n\tsasl.jaas.config = null\n\tsasl.kerberos.kinit.cmd = /usr/bin/kinit\n\tsasl.kerberos.min.time.before.relogin = 60000\n\tsasl.kerberos.service.name = null\n\tsasl.kerberos.ticket.renew.jitter = 0.05\n\tsasl.kerberos.ticket.renew.window.factor = 0.8\n\tsasl.login.callback.handler.class = null\n\tsasl.login.class = null\n\tsasl.login.connect.timeout.ms = null\n\tsasl.login.read.timeout.ms = null\n\tsasl.login.refresh.buffer.seconds = 300\n\tsasl.login.refresh.min.period.seconds = 60\n\tsasl.login.refresh.window.factor = 0.8\n\tsasl.login.refresh.window.jitter = 0.05\n\tsasl.login.retry.backoff.max.ms = 10000\n\tsasl.login.retry.backoff.ms = 100\n\tsasl.mechanism = GSSAPI\n\tsasl.oauthbearer.clock.skew.seconds = 30\n\tsasl.oauthbearer.expected.audience = null\n\tsasl.oauthbearer.expected.issuer = null\n\tsasl.oauthbearer.header.urlencode = false\n\tsasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100\n\tsasl.oauthbearer.jwks.endpoint.url = null\n\tsasl.oauthbearer.scope.claim.name = scope\n\tsasl.oauthbearer.sub.claim.name = sub\n\tsasl.oauthbearer.token.endpoint.url = null\n\tsecurity.protocol = PLAINTEXT\n\tsecurity.providers = null\n\tsend.buffer.bytes = 131072\n\tsocket.connection.setup.timeout.max.ms = 30000\n\tsocket.connection.setup.timeout.ms = 10000\n\tssl.cipher.suites = null\n\tssl.enabled.protocols = [TLSv1.2, TLSv1.3]\n\tssl.endpoint.identification.algorithm = https\n\tssl.engine.factory.class = null\n\tssl.key.password = null\n\tssl.keymanager.algorithm = SunX509\n\tssl.keystore.certificate.chain = null\n\tssl.keystore.key = null\n\tssl.keystore.location = null\n\tssl.keystore.password = null\n\tssl.keystore.type = JKS\n\tssl.protocol = TLSv1.3\n\tssl.provider = null\n\tssl.secure.random.implementation = null\n\tssl.trustmanager.algorithm = PKIX\n\tssl.truststore.certificates = null\n\tssl.truststore.location = null\n\tssl.truststore.password = null\n\tssl.truststore.type = JKS\n\ttransaction.timeout.ms = 60000\n\ttransactional.id = null\n\tvalue.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer\n"
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.clients.producer.ProducerConfig"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 785000000
+}
+message: "initializing Kafka metrics collector"
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 793000000
+}
+message: "[Producer clientId=producer-1] Instantiated an idempotent producer."
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.clients.producer.KafkaProducer"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 815000000
+}
+message: "Kafka version: 3.9.0"
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 815000000
+}
+message: "Kafka commitId: 84caaa6e9da06435"
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 815000000
+}
+message: "Kafka startTimeMs: 1745391596815"
+instruction_id: "bundle_2"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 826000000
+}
+message: "[Producer clientId=producer-1] Cluster ID: gBHGC0rmRSCTXxDNeZIw5Q"
+log_location: "org.apache.kafka.clients.Metadata"
+thread: "28"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 848000000
+}
+message: "[Producer clientId=producer-1] ProducerId set to 0 with epoch 0"
+log_location: "org.apache.kafka.clients.producer.internals.TransactionManager"
+thread: "28"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 930000000
+}
+message: "Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=my-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 931000000
+}
+message: "ConsumerConfig values: \n\tallow.auto.create.topics = true\n\tauto.commit.interval.ms = 100\n\tauto.include.jmx.reporter = true\n\tauto.offset.reset = earliest\n\tbootstrap.servers = [localhost:9092]\n\tcheck.crcs = true\n\tclient.dns.lookup = use_all_dns_ips\n\tclient.id = consumer-beam-mirror-001-4\n\tclient.rack = \n\tconnections.max.idle.ms = 540000\n\tdefault.api.timeout.ms = 60000\n\tenable.auto.commit = true\n\tenable.metrics.push = true\n\texclude.internal.topics = true\n\tfetch.max.bytes = 52428800\n\tfetch.max.wait.ms = 500\n\tfetch.min.bytes = 1\n\tgroup.id = beam-mirror-001\n\tgroup.instance.id = null\n\tgroup.protocol = classic\n\tgroup.remote.assignor = null\n\theartbeat.interval.ms = 3000\n\tinterceptor.classes = []\n\tinternal.leave.group.on.close = true\n\tinternal.throw.on.fetch.stable.offset.unsupported = false\n\tisolation.level = read_uncommitted\n\tkey.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n\tmax.partition.fetch.bytes = 1048576\n\tmax.poll.interval.ms = 300000\n\tmax.poll.records = 500\n\tmetadata.max.age.ms = 300000\n\tmetadata.recovery.strategy = none\n\tmetric.reporters = []\n\tmetrics.num.samples = 2\n\tmetrics.recording.level = INFO\n\tmetrics.sample.window.ms = 30000\n\tpartition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]\n\treceive.buffer.bytes = 524288\n\treconnect.backoff.max.ms = 1000\n\treconnect.backoff.ms = 50\n\trequest.timeout.ms = 30000\n\tretry.backoff.max.ms = 1000\n\tretry.backoff.ms = 100\n\tsasl.client.callback.handler.class = null\n\tsasl.jaas.config = null\n\tsasl.kerberos.kinit.cmd = /usr/bin/kinit\n\tsasl.kerberos.min.time.before.relogin = 60000\n\tsasl.kerberos.service.name = null\n\tsasl.kerberos.ticket.renew.jitter = 0.05\n\tsasl.kerberos.ticket.renew.window.factor = 0.8\n\tsasl.login.callback.handler.class = null\n\tsasl.login.class = null\n\tsasl.login.connect.timeout.ms = null\n\tsasl.login.read.timeout.ms = null\n\tsasl.login.refresh.buffer.seconds = 300\n\tsasl.login.refresh.min.period.seconds = 60\n\tsasl.login.refresh.window.factor = 0.8\n\tsasl.login.refresh.window.jitter = 0.05\n\tsasl.login.retry.backoff.max.ms = 10000\n\tsasl.login.retry.backoff.ms = 100\n\tsasl.mechanism = GSSAPI\n\tsasl.oauthbearer.clock.skew.seconds = 30\n\tsasl.oauthbearer.expected.audience = null\n\tsasl.oauthbearer.expected.issuer = null\n\tsasl.oauthbearer.header.urlencode = false\n\tsasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100\n\tsasl.oauthbearer.jwks.endpoint.url = null\n\tsasl.oauthbearer.scope.claim.name = scope\n\tsasl.oauthbearer.sub.claim.name = sub\n\tsasl.oauthbearer.token.endpoint.url = null\n\tsecurity.protocol = PLAINTEXT\n\tsecurity.providers = null\n\tsend.buffer.bytes = 131072\n\tsession.timeout.ms = 45000\n\tsocket.connection.setup.timeout.max.ms = 30000\n\tsocket.connection.setup.timeout.ms = 10000\n\tssl.cipher.suites = null\n\tssl.enabled.protocols = [TLSv1.2, TLSv1.3]\n\tssl.endpoint.identification.algorithm = https\n\tssl.engine.factory.class = null\n\tssl.key.password = null\n\tssl.keymanager.algorithm = SunX509\n\tssl.keystore.certificate.chain = null\n\tssl.keystore.key = null\n\tssl.keystore.location = null\n\tssl.keystore.password = null\n\tssl.keystore.type = JKS\n\tssl.protocol = TLSv1.3\n\tssl.provider = null\n\tssl.secure.random.implementation = null\n\tssl.trustmanager.algorithm = PKIX\n\tssl.truststore.certificates = null\n\tssl.truststore.location = null\n\tssl.truststore.password = null\n\tssl.truststore.type = JKS\n\tvalue.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.ConsumerConfig"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 932000000
+}
+message: "initializing Kafka metrics collector"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 936000000
+}
+message: "Kafka version: 3.9.0"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 937000000
+}
+message: "Kafka commitId: 84caaa6e9da06435"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 937000000
+}
+message: "Kafka startTimeMs: 1745391596936"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 937000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Assigned to partition(s): my-topic-0"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 938000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Seeking to offset 0 for partition my-topic-0"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391596
+  nanos: 949000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Cluster ID: gBHGC0rmRSCTXxDNeZIw5Q"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.Metadata"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391597
+  nanos: 585000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ConsumerCoordinator"
+thread: "26"
+
+WARNING:root:severity: WARN
+timestamp {
+  seconds: 1745391598
+  nanos: 940000000
+}
+message: "No messages retrieved with polling timeout 2 seconds. Consider increasing the consumer polling timeout using withConsumerPollingTimeout method."
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391598
+  nanos: 952000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Resetting generation and member id due to: consumer pro-actively leaving the group"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ConsumerCoordinator"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391598
+  nanos: 952000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-4, groupId=beam-mirror-001] Request joining group due to: consumer pro-actively leaving the group"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ConsumerCoordinator"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 127000000
+}
+message: "Metrics scheduler closed"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 128000000
+}
+message: "Closing reporter org.apache.kafka.common.metrics.JmxReporter"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 128000000
+}
+message: "Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 128000000
+}
+message: "Metrics reporters closed"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 131000000
+}
+message: "App info kafka.consumer for consumer-beam-mirror-001-4 unregistered"
+instruction_id: "bundle_2"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 163000000
+}
+message: "Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=my-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 163000000
+}
+message: "ConsumerConfig values: \n\tallow.auto.create.topics = true\n\tauto.commit.interval.ms = 100\n\tauto.include.jmx.reporter = true\n\tauto.offset.reset = earliest\n\tbootstrap.servers = [localhost:9092]\n\tcheck.crcs = true\n\tclient.dns.lookup = use_all_dns_ips\n\tclient.id = consumer-beam-mirror-001-5\n\tclient.rack = \n\tconnections.max.idle.ms = 540000\n\tdefault.api.timeout.ms = 60000\n\tenable.auto.commit = true\n\tenable.metrics.push = true\n\texclude.internal.topics = true\n\tfetch.max.bytes = 52428800\n\tfetch.max.wait.ms = 500\n\tfetch.min.bytes = 1\n\tgroup.id = beam-mirror-001\n\tgroup.instance.id = null\n\tgroup.protocol = classic\n\tgroup.remote.assignor = null\n\theartbeat.interval.ms = 3000\n\tinterceptor.classes = []\n\tinternal.leave.group.on.close = true\n\tinternal.throw.on.fetch.stable.offset.unsupported = false\n\tisolation.level = read_uncommitted\n\tkey.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n\tmax.partition.fetch.bytes = 1048576\n\tmax.poll.interval.ms = 300000\n\tmax.poll.records = 500\n\tmetadata.max.age.ms = 300000\n\tmetadata.recovery.strategy = none\n\tmetric.reporters = []\n\tmetrics.num.samples = 2\n\tmetrics.recording.level = INFO\n\tmetrics.sample.window.ms = 30000\n\tpartition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]\n\treceive.buffer.bytes = 524288\n\treconnect.backoff.max.ms = 1000\n\treconnect.backoff.ms = 50\n\trequest.timeout.ms = 30000\n\tretry.backoff.max.ms = 1000\n\tretry.backoff.ms = 100\n\tsasl.client.callback.handler.class = null\n\tsasl.jaas.config = null\n\tsasl.kerberos.kinit.cmd = /usr/bin/kinit\n\tsasl.kerberos.min.time.before.relogin = 60000\n\tsasl.kerberos.service.name = null\n\tsasl.kerberos.ticket.renew.jitter = 0.05\n\tsasl.kerberos.ticket.renew.window.factor = 0.8\n\tsasl.login.callback.handler.class = null\n\tsasl.login.class = null\n\tsasl.login.connect.timeout.ms = null\n\tsasl.login.read.timeout.ms = null\n\tsasl.login.refresh.buffer.seconds = 300\n\tsasl.login.refresh.min.period.seconds = 60\n\tsasl.login.refresh.window.factor = 0.8\n\tsasl.login.refresh.window.jitter = 0.05\n\tsasl.login.retry.backoff.max.ms = 10000\n\tsasl.login.retry.backoff.ms = 100\n\tsasl.mechanism = GSSAPI\n\tsasl.oauthbearer.clock.skew.seconds = 30\n\tsasl.oauthbearer.expected.audience = null\n\tsasl.oauthbearer.expected.issuer = null\n\tsasl.oauthbearer.header.urlencode = false\n\tsasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100\n\tsasl.oauthbearer.jwks.endpoint.url = null\n\tsasl.oauthbearer.scope.claim.name = scope\n\tsasl.oauthbearer.sub.claim.name = sub\n\tsasl.oauthbearer.token.endpoint.url = null\n\tsecurity.protocol = PLAINTEXT\n\tsecurity.providers = null\n\tsend.buffer.bytes = 131072\n\tsession.timeout.ms = 45000\n\tsocket.connection.setup.timeout.max.ms = 30000\n\tsocket.connection.setup.timeout.ms = 10000\n\tssl.cipher.suites = null\n\tssl.enabled.protocols = [TLSv1.2, TLSv1.3]\n\tssl.endpoint.identification.algorithm = https\n\tssl.engine.factory.class = null\n\tssl.key.password = null\n\tssl.keymanager.algorithm = SunX509\n\tssl.keystore.certificate.chain = null\n\tssl.keystore.key = null\n\tssl.keystore.location = null\n\tssl.keystore.password = null\n\tssl.keystore.type = JKS\n\tssl.protocol = TLSv1.3\n\tssl.provider = null\n\tssl.secure.random.implementation = null\n\tssl.trustmanager.algorithm = PKIX\n\tssl.truststore.certificates = null\n\tssl.truststore.location = null\n\tssl.truststore.password = null\n\tssl.truststore.type = JKS\n\tvalue.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.ConsumerConfig"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 163000000
+}
+message: "initializing Kafka metrics collector"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 166000000
+}
+message: "Kafka version: 3.9.0"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 166000000
+}
+message: "Kafka commitId: 84caaa6e9da06435"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 166000000
+}
+message: "Kafka startTimeMs: 1745391599166"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 166000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-5, groupId=beam-mirror-001] Assigned to partition(s): my-topic-0"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 166000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-5, groupId=beam-mirror-001] Seeking to offset 0 for partition my-topic-0"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer"
+thread: "26"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745391599
+  nanos: 185000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-5, groupId=beam-mirror-001] Cluster ID: gBHGC0rmRSCTXxDNeZIw5Q"
+instruction_id: "bundle_3"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/Process"
+log_location: "org.apache.kafka.clients.Metadata"
+thread: "26"
+
+^CTraceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 183, in <module>
+    run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 127, in run
+    with beam.Pipeline(options=options, display_data=display_data) as p:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 644, in __exit__
+    self.result = self.run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 618, in run
+    return self.runner.run_pipeline(self, self._options)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/direct/direct_runner.py", line 184, in run_pipeline
+    return runner.run_pipeline(pipeline, options)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 195, in run_pipeline
+    self._latest_run_result = self.run_via_runner_api(
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 221, in run_via_runner_api
+    return self.run_stages(stage_context, stages)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 468, in run_stages
+    bundle_results = self._execute_bundle(
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 793, in _execute_bundle
+    self._run_bundle(
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 1032, in _run_bundle
+    result, splits = bundle_manager.process_bundle(
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/fn_runner.py", line 1395, in process_bundle
+    result: beam_fn_api_pb2.InstructionResponse = result_future.get()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/fn_api_runner/worker_handlers.py", line 1261, in get
+    self._condition.wait(timeout)
+  File "/usr/lib/python3.10/threading.py", line 320, in wait
+    waiter.acquire()
+KeyboardInterrupt
+
+(beamenv) Ubuntu-VM% python3 -m apache_beam.yaml.main --yaml_pipeline_file=pipe.yaml --runner=DirectRunner
+
+Building pipeline...
+INFO:apache_beam.yaml.yaml_transform:Expanding "KafkaSource" at line 4 
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-sdks-java-io-expansion-service/2.64.0/beam-sdks-java-io-expansion-service-2.64.0.jar
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Starting service with ['/home/ashu/Desktop/Ash/java/zulu17.58.21-ca-jdk17.0.15-linux_x64/bin/java' '-jar' '/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '59431' '--filesToStage=/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '--alsoStartLoopbackWorker']
+INFO:apache_beam.utils.subprocess_server:Starting expansion service at localhost:59431
+INFO:apache_beam.utils.subprocess_server:Apr 23, 2025 12:49:41 PM org.apache.beam.sdk.expansion.service.ExpansionService loadRegisteredTransforms
+INFO:apache_beam.utils.subprocess_server:INFO: Registering external transforms: [beam:transform:org.apache.beam:kafka_write:v2, beam:transform:org.apache.beam:kafka_read_with_metadata:v2, beam:transform:org.apache.beam:kafka_write:v1, beam:transform:combine_grouped_values:v1, beam:schematransform:org.apache.beam:iceberg_read:v1, beam:transform:combine_globally:v1, beam:external:java:generate_sequence:v1, beam:transform:redistribute_by_key:v1, beam:transform:window_into:v1, beam:schematransform:org.apache.beam:kafka_read:v1, beam:schematransform:org.apache.beam:kafka_write:v1, beam:schematransform:org.apache.beam:iceberg_cdc_read:v1, beam:transform:combine_per_key:v1, beam:transform:org.apache.beam:kafka_read_with_metadata:v1, beam:transform:group_by_key:v1, beam:transform:group_into_batches:v1, beam:transform:group_into_batches_with_sharded_key:v1, beam:transform:create_view:v1, beam:transform:teststream:v1, beam:transform:sdf_process_keyed_elements:v1, beam:schematransform:org.apache.beam:iceberg_write:v1, beam:transform:flatten:v1, beam:transform:impulse:v1, beam:runners_core:transforms:splittable_process:v1, beam:transform:write_files:v1, beam:transform:org.apache.beam:kafka_read_without_metadata:v1, beam:transform:managed:v1, beam:transform:redistribute_arbitrarily:v1, beam:transform:reshuffle:v1]
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered transforms:
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@5f7b97da
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18b0930f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@6b7906b3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_grouped_values:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a1dd365
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@395b56bb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_globally:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@256f8274
+INFO:apache_beam.utils.subprocess_server:       beam:external:java:generate_sequence:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@68044f4
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52d239ba
+INFO:apache_beam.utils.subprocess_server:       beam:transform:window_into:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@315f43d5
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68fa0ba8
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@6c5945a7
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2f05be7f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_per_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@640f11a1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@5c10f1c3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@7ac2e39b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@78365cfa
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches_with_sharded_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@64a8c844
+INFO:apache_beam.utils.subprocess_server:       beam:transform:create_view:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3f6db3fb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:teststream:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52de51b6
+INFO:apache_beam.utils.subprocess_server:       beam:transform:sdf_process_keyed_elements:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18c5069b
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a0d172f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:flatten:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68ad99fe
+INFO:apache_beam.utils.subprocess_server:       beam:transform:impulse:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@485e36bc
+INFO:apache_beam.utils.subprocess_server:       beam:runners_core:transforms:splittable_process:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@781f10f2
+INFO:apache_beam.utils.subprocess_server:       beam:transform:write_files:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2a79d4b1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_without_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@2e9fda69
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@17cdf2d0
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_arbitrarily:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@1755e85b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:reshuffle:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@736d6a5c
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered SchemaTransformProviders:
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:filter-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:flatten:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:map_to_fields-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:log_for_testing:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:test_schematransform:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:window_into_strategy:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:generate_sequence:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:explode:v1
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 23, 2025 12:49:44 PM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1' with URN 'beam:expansion:payload:schematransform:v1'
+INFO:apache_beam.yaml.yaml_transform:Expanding "MirrorToNTopic" at line 14 
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 23, 2025 12:49:56 PM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'MirrorToNTopic/beam:schematransform:org.apache.beam:kafka_write:v1' with URN 'beam:expansion:payload:schematransform:v1'
+Running pipeline...
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:starting control server on port 33037
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:starting data server on port 43599
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:starting state server on port 36477
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:starting logging server on port 44391
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:Requesting worker at localhost:59431
+INFO:apache_beam.runners.portability.fn_api_runner.worker_handlers:self.control_address: Ubuntu-VM.myguest.virtualbox.org:33037
+INFO:apache_beam.utils.subprocess_server:Apr 23, 2025 12:50:10 PM org.apache.beam.fn.harness.ExternalWorkerService startWorker
+INFO:apache_beam.utils.subprocess_server:INFO: Starting worker worker_0 pointing at Ubuntu-VM.myguest.virtualbox.org:33037.
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392813
+  nanos: 507000000
+}
+message: "Fn Harness started"
+log_location: "org.apache.beam.fn.harness.FnHarness"
+thread: "21"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392813
+  nanos: 795000000
+}
+message: "Running JvmInitializer#beforeProcessing for org.apache.beam.sdk.io.kafka.KafkaIOInitializer@6fa55a9e"
+log_location: "org.apache.beam.sdk.fn.JvmInitializers"
+thread: "21"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392813
+  nanos: 796000000
+}
+message: "Completed JvmInitializer#beforeProcessing for org.apache.beam.sdk.io.kafka.KafkaIOInitializer@6fa55a9e"
+log_location: "org.apache.beam.sdk.fn.JvmInitializers"
+thread: "21"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392813
+  nanos: 798000000
+}
+message: "Entering instruction processing loop"
+log_location: "org.apache.beam.fn.harness.FnHarness"
+thread: "21"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392814
+  nanos: 637000000
+}
+message: "ConsumerConfig values: \n\tallow.auto.create.topics = true\n\tauto.commit.interval.ms = 100\n\tauto.include.jmx.reporter = true\n\tauto.offset.reset = earliest\n\tbootstrap.servers = [localhost:9092]\n\tcheck.crcs = true\n\tclient.dns.lookup = use_all_dns_ips\n\tclient.id = consumer-beam-mirror-001-1\n\tclient.rack = \n\tconnections.max.idle.ms = 540000\n\tdefault.api.timeout.ms = 60000\n\tenable.auto.commit = true\n\tenable.metrics.push = true\n\texclude.internal.topics = true\n\tfetch.max.bytes = 52428800\n\tfetch.max.wait.ms = 500\n\tfetch.min.bytes = 1\n\tgroup.id = beam-mirror-001\n\tgroup.instance.id = null\n\tgroup.protocol = classic\n\tgroup.remote.assignor = null\n\theartbeat.interval.ms = 3000\n\tinterceptor.classes = []\n\tinternal.leave.group.on.close = true\n\tinternal.throw.on.fetch.stable.offset.unsupported = false\n\tisolation.level = read_uncommitted\n\tkey.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n\tmax.partition.fetch.bytes = 1048576\n\tmax.poll.interval.ms = 300000\n\tmax.poll.records = 500\n\tmetadata.max.age.ms = 300000\n\tmetadata.recovery.strategy = none\n\tmetric.reporters = []\n\tmetrics.num.samples = 2\n\tmetrics.recording.level = INFO\n\tmetrics.sample.window.ms = 30000\n\tpartition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]\n\treceive.buffer.bytes = 524288\n\treconnect.backoff.max.ms = 1000\n\treconnect.backoff.ms = 50\n\trequest.timeout.ms = 30000\n\tretry.backoff.max.ms = 1000\n\tretry.backoff.ms = 100\n\tsasl.client.callback.handler.class = null\n\tsasl.jaas.config = null\n\tsasl.kerberos.kinit.cmd = /usr/bin/kinit\n\tsasl.kerberos.min.time.before.relogin = 60000\n\tsasl.kerberos.service.name = null\n\tsasl.kerberos.ticket.renew.jitter = 0.05\n\tsasl.kerberos.ticket.renew.window.factor = 0.8\n\tsasl.login.callback.handler.class = null\n\tsasl.login.class = null\n\tsasl.login.connect.timeout.ms = null\n\tsasl.login.read.timeout.ms = null\n\tsasl.login.refresh.buffer.seconds = 300\n\tsasl.login.refresh.min.period.seconds = 60\n\tsasl.login.refresh.window.factor = 0.8\n\tsasl.login.refresh.window.jitter = 0.05\n\tsasl.login.retry.backoff.max.ms = 10000\n\tsasl.login.retry.backoff.ms = 100\n\tsasl.mechanism = GSSAPI\n\tsasl.oauthbearer.clock.skew.seconds = 30\n\tsasl.oauthbearer.expected.audience = null\n\tsasl.oauthbearer.expected.issuer = null\n\tsasl.oauthbearer.header.urlencode = false\n\tsasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100\n\tsasl.oauthbearer.jwks.endpoint.url = null\n\tsasl.oauthbearer.scope.claim.name = scope\n\tsasl.oauthbearer.sub.claim.name = sub\n\tsasl.oauthbearer.token.endpoint.url = null\n\tsecurity.protocol = PLAINTEXT\n\tsecurity.providers = null\n\tsend.buffer.bytes = 131072\n\tsession.timeout.ms = 45000\n\tsocket.connection.setup.timeout.max.ms = 30000\n\tsocket.connection.setup.timeout.ms = 10000\n\tssl.cipher.suites = null\n\tssl.enabled.protocols = [TLSv1.2, TLSv1.3]\n\tssl.endpoint.identification.algorithm = https\n\tssl.engine.factory.class = null\n\tssl.key.password = null\n\tssl.keymanager.algorithm = SunX509\n\tssl.keystore.certificate.chain = null\n\tssl.keystore.key = null\n\tssl.keystore.location = null\n\tssl.keystore.password = null\n\tssl.keystore.type = JKS\n\tssl.protocol = TLSv1.3\n\tssl.provider = null\n\tssl.secure.random.implementation = null\n\tssl.trustmanager.algorithm = PKIX\n\tssl.truststore.certificates = null\n\tssl.truststore.location = null\n\tssl.truststore.password = null\n\tssl.truststore.type = JKS\n\tvalue.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.clients.consumer.ConsumerConfig"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392814
+  nanos: 713000000
+}
+message: "initializing Kafka metrics collector"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392814
+  nanos: 896000000
+}
+message: "Kafka version: 3.9.0"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392814
+  nanos: 896000000
+}
+message: "Kafka commitId: 84caaa6e9da06435"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392814
+  nanos: 896000000
+}
+message: "Kafka startTimeMs: 1745392814892"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 129000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-1, groupId=beam-mirror-001] Cluster ID: gBHGC0rmRSCTXxDNeZIw5Q"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.clients.Metadata"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 145000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-1, groupId=beam-mirror-001] Resetting generation and member id due to: consumer pro-actively leaving the group"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.clients.consumer.internals.ConsumerCoordinator"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 145000000
+}
+message: "[Consumer clientId=consumer-beam-mirror-001-1, groupId=beam-mirror-001] Request joining group due to: consumer pro-actively leaving the group"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.clients.consumer.internals.ConsumerCoordinator"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 192000000
+}
+message: "Metrics scheduler closed"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 203000000
+}
+message: "Closing reporter org.apache.kafka.common.metrics.JmxReporter"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 209000000
+}
+message: "Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 209000000
+}
+message: "Metrics reporters closed"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.metrics.Metrics"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 239000000
+}
+message: "App info kafka.consumer for consumer-beam-mirror-001-1 unregistered"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/ParDo(GenerateKafkaSourceDescriptor)/ParMultiDo(GenerateKafkaSourceDescriptor)"
+log_location: "org.apache.kafka.common.utils.AppInfoParser"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 325000000
+}
+message: "Creating Kafka consumer for initial restriction for KafkaSourceDescriptor{topic=my-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/PairWithRestriction"
+log_location: "org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 326000000
+}
+message: "ConsumerConfig values: \n\tallow.auto.create.topics = true\n\tauto.commit.interval.ms = 100\n\tauto.include.jmx.reporter = true\n\tauto.offset.reset = earliest\n\tbootstrap.servers = [localhost:9092]\n\tcheck.crcs = true\n\tclient.dns.lookup = use_all_dns_ips\n\tclient.id = consumer-beam-mirror-001-2\n\tclient.rack = \n\tconnections.max.idle.ms = 540000\n\tdefault.api.timeout.ms = 60000\n\tenable.auto.commit = true\n\tenable.metrics.push = true\n\texclude.internal.topics = true\n\tfetch.max.bytes = 52428800\n\tfetch.max.wait.ms = 500\n\tfetch.min.bytes = 1\n\tgroup.id = beam-mirror-001\n\tgroup.instance.id = null\n\tgroup.protocol = classic\n\tgroup.remote.assignor = null\n\theartbeat.interval.ms = 3000\n\tinterceptor.classes = []\n\tinternal.leave.group.on.close = true\n\tinternal.throw.on.fetch.stable.offset.unsupported = false\n\tisolation.level = read_uncommitted\n\tkey.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n\tmax.partition.fetch.bytes = 1048576\n\tmax.poll.interval.ms = 300000\n\tmax.poll.records = 500\n\tmetadata.max.age.ms = 300000\n\tmetadata.recovery.strategy = none\n\tmetric.reporters = []\n\tmetrics.num.samples = 2\n\tmetrics.recording.level = INFO\n\tmetrics.sample.window.ms = 30000\n\tpartition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]\n\treceive.buffer.bytes = 524288\n\treconnect.backoff.max.ms = 1000\n\treconnect.backoff.ms = 50\n\trequest.timeout.ms = 30000\n\tretry.backoff.max.ms = 1000\n\tretry.backoff.ms = 100\n\tsasl.client.callback.handler.class = null\n\tsasl.jaas.config = null\n\tsasl.kerberos.kinit.cmd = /usr/bin/kinit\n\tsasl.kerberos.min.time.before.relogin = 60000\n\tsasl.kerberos.service.name = null\n\tsasl.kerberos.ticket.renew.jitter = 0.05\n\tsasl.kerberos.ticket.renew.window.factor = 0.8\n\tsasl.login.callback.handler.class = null\n\tsasl.login.class = null\n\tsasl.login.connect.timeout.ms = null\n\tsasl.login.read.timeout.ms = null\n\tsasl.login.refresh.buffer.seconds = 300\n\tsasl.login.refresh.min.period.seconds = 60\n\tsasl.login.refresh.window.factor = 0.8\n\tsasl.login.refresh.window.jitter = 0.05\n\tsasl.login.retry.backoff.max.ms = 10000\n\tsasl.login.retry.backoff.ms = 100\n\tsasl.mechanism = GSSAPI\n\tsasl.oauthbearer.clock.skew.seconds = 30\n\tsasl.oauthbearer.expected.audience = null\n\tsasl.oauthbearer.expected.issuer = null\n\tsasl.oauthbearer.header.urlencode = false\n\tsasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000\n\tsasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100\n\tsasl.oauthbearer.jwks.endpoint.url = null\n\tsasl.oauthbearer.scope.claim.name = scope\n\tsasl.oauthbearer.sub.claim.name = sub\n\tsasl.oauthbearer.token.endpoint.url = null\n\tsecurity.protocol = PLAINTEXT\n\tsecurity.providers = null\n\tsend.buffer.bytes = 131072\n\tsession.timeout.ms = 45000\n\tsocket.connection.setup.timeout.max.ms = 30000\n\tsocket.connection.setup.timeout.ms = 10000\n\tssl.cipher.suites = null\n\tssl.enabled.protocols = [TLSv1.2, TLSv1.3]\n\tssl.endpoint.identification.algorithm = https\n\tssl.engine.factory.class = null\n\tssl.key.password = null\n\tssl.keymanager.algorithm = SunX509\n\tssl.keystore.certificate.chain = null\n\tssl.keystore.key = null\n\tssl.keystore.location = null\n\tssl.keystore.password = null\n\tssl.keystore.type = JKS\n\tssl.protocol = TLSv1.3\n\tssl.provider = null\n\tssl.secure.random.implementation = null\n\tssl.trustmanager.algorithm = PKIX\n\tssl.truststore.certificates = null\n\tssl.truststore.location = null\n\tssl.truststore.password = null\n\tssl.truststore.type = JKS\n\tvalue.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer\n"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/PairWithRestriction"
+log_location: "org.apache.kafka.clients.consumer.ConsumerConfig"
+thread: "27"
+
+INFO:root:severity: INFO
+timestamp {
+  seconds: 1745392817
+  nanos: 328000000
+}
+message: "initializing Kafka metrics collector"
+instruction_id: "bundle_1"
+transform_id: "KafkaSource/beam:schematransform:org.apache.beam:kafka_read:v1/KafkaIO.Read/KafkaIO.Read/KafkaIO.Read.ReadFromKafkaViaSDF/KafkaIO.ReadSourceDescriptors/ParMultiDo(Unbounded)/PairWithRestriction"
+log_location: "org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector"
+thread: "27"
+
+
+
+
+Producer
+(beamenv) Ubuntu-VM% python prod.py 
+Sent: Message 1: Hello Kafka!
+Sent: Message 2: Kafka is cool 😎
+Sent: Message 3: Sending data...
+Sent: Message 4: Streaming vibes
+Sent: Message 5: Keep it flowing
+Sent: Message 6: Another one 🔁
+Sent: Message 7: Smooth ride
+Sent: Message 8: Kafka producer here
+Sent: Message 9: Almost there
+Sent: Message 10: Done and dusted!
+✅ All 10 messages sent successfully!
+(beamenv) Ubuntu-VM% python prod.py
+Sent: Message 1: Hello Kafka!
+Sent: Message 2: Kafka is cool 😎
+Sent: Message 3: Sending data...
+Sent: Message 4: Streaming vibes
+Sent: Message 5: Keep it flowing
+Sent: Message 6: Another one 🔁
+Sent: Message 7: Smooth ride
+Sent: Message 8: Kafka producer here
+Sent: Message 9: Almost there
+Sent: Message 10: Done and dusted!
+✅ All 10 messages sent successfully!
+(beamenv) Ubuntu-VM% 
+
+
+consumer
+(beamenv) Ubuntu-VM% python consumer.py 
+Listening for messages on 'n-topic'...
+Received: Message 1: Hello Kafka!
+Received: Message 2: Kafka is cool 😎
+Received: Message 3: Sending data...
+Received: Message 4: Streaming vibes
+Received: Message 5: Keep it flowing
+Received: Message 6: Another one 🔁
+Received: Message 7: Smooth ride
+Received: Message 8: Kafka producer here
+Received: Message 9: Almost there
+Received: Message 10: Done and dusted!
+Received: Message 1: Hello Kafka!
+Received: Message 2: Kafka is cool 😎
+Received: Message 3: Sending data...
+Received: Message 4: Streaming vibes
+Received: Message 5: Keep it flowing
+Received: Message 6: Another one 🔁
+Received: Message 7: Smooth ride
+Received: Message 8: Kafka producer here
+Received: Message 9: Almost there
+Received: Message 10: Done and dusted!
+
+
+

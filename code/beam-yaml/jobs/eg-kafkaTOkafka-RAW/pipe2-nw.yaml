@@ -1,0 +1,52 @@
+pipeline:
+  type: chain
+  transforms:
+    - type: ReadFromKafka
+      name: KafkaSource
+      config:
+        topic: "my-topic"
+        bootstrap_servers: "localhost:9092"
+        format: RAW
+        consumer_config:
+          group.id: beam-mirror-001
+          auto.offset.reset: earliest
+
+    - type: PyTransform
+      name: UppercaseValues
+      config:
+        constructor: __callable__
+        kwargs:
+          source: |
+            import apache_beam as beam
+
+            def to_upper(pcoll):
+              return (
+                pcoll
+                | "UppercaseAndTuple" >> beam.Map(
+                    lambda kv: (
+                      kv[0],  # key stays the same
+                      kv[1].decode("utf-8").upper().encode("utf-8")  # uppercased value
+                    )
+                  )
+              )
+
+    - type: PyTransform
+      name: KafkaWriter
+      config:
+        constructor: __callable__
+        kwargs:
+          source: |
+            import apache_beam as beam
+            from apache_beam.io.kafka import WriteToKafka
+            from kafka import KafkaProducer
+
+            def write_to_kafka(pcoll):
+              return (
+                pcoll
+                | "WriteRawToKafka" >> WriteToKafka(
+                    producer_config={
+                        "bootstrap.servers": "localhost:9092"
+                    },
+                    topic="n-topic"
+                  )
+              )
