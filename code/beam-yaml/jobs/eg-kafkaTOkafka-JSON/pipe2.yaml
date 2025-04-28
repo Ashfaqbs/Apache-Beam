@@ -1,0 +1,49 @@
+pipeline:
+  type: chain
+  transforms:
+    - type: ReadFromKafka
+      name: KafkaSource
+      config:
+        topic: "n-topic"
+        format: JSON
+        bootstrap_servers: localhost:9092
+        schema: |
+          {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "age": {"type": "number"}
+            }
+          }
+        consumer_config:
+          group.id: beam-mirror-001
+          auto.offset.reset: earliest
+        
+        
+
+    - type: PyTransform
+      config:
+        constructor: __constructor__
+        kwargs:
+          source: |
+            import apache_beam as beam
+            def create_transform():
+              return beam.Map(lambda x: {**x, 'name': x['name'].upper()})
+    
+    - type: WriteToKafka
+      name: KafkaSink
+      config:
+        topic: "m-topic"
+        bootstrap_servers: localhost:9092
+        format: JSON
+        schema: |
+          {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "age": {"type": "number"}
+            }
+          }
+        producer_config_updates:
+          key.serializer: org.apache.kafka.common.serialization.StringSerializer
+          value.serializer: org.apache.kafka.common.serialization.StringSerializer
