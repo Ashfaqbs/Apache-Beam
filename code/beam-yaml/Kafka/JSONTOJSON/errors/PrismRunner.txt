@@ -1,0 +1,1976 @@
+pipeline:
+  type: chain
+  transforms:
+
+    # 1) Read JSON from Kafka into Beam Rows
+    - type: ReadFromKafka
+      name: ReadJson
+      config:
+        topic: "m-topic"
+        bootstrap_servers: "localhost:9092"
+        format: JSON
+        schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"}}}'
+        consumer_config:
+          group.id: beam-json-002
+          auto.offset.reset: earliest
+
+    # 2) Uppercase the "name" field and append as "name_upper"
+    - type: MapToFields
+      name: UppercaseName
+      config:
+        language: python
+        append: true
+        fields:
+          name_upper:
+            expression: "name.upper()"
+            output_type: string
+
+    # 3) Write back out as JSON to Kafka
+    - type: WriteToKafka
+      name: WriteJson
+      config:
+        topic: "n-topic"
+        bootstrap_servers: "localhost:9092"
+        format: JSON
+        schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"},"name_upper":{"type":"string"}}}'
+
+options:
+  streaming: true
+
+
+
+
+
+(beamenv) Ubuntu-VM% python3 -m apache_beam.yaml.main --yaml_pipeline_file=pipe3.yaml --runner=PrismRunner 
+Building pipeline...
+INFO:apache_beam.yaml.yaml_transform:Expanding "ReadJson" at line 6 
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-sdks-java-io-expansion-service/2.64.0/beam-sdks-java-io-expansion-service-2.64.0.jar
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Starting service with ['/home/ashu/Desktop/Ash/java/zulu17.58.21-ca-jdk17.0.15-linux_x64/bin/java' '-jar' '/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '57709' '--filesToStage=/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '--alsoStartLoopbackWorker']
+INFO:apache_beam.utils.subprocess_server:Starting expansion service at localhost:57709
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 7:42:16 AM org.apache.beam.sdk.expansion.service.ExpansionService loadRegisteredTransforms
+INFO:apache_beam.utils.subprocess_server:INFO: Registering external transforms: [beam:transform:org.apache.beam:kafka_write:v2, beam:transform:org.apache.beam:kafka_read_with_metadata:v2, beam:transform:org.apache.beam:kafka_write:v1, beam:transform:combine_grouped_values:v1, beam:schematransform:org.apache.beam:iceberg_read:v1, beam:transform:combine_globally:v1, beam:external:java:generate_sequence:v1, beam:transform:redistribute_by_key:v1, beam:transform:window_into:v1, beam:schematransform:org.apache.beam:kafka_read:v1, beam:schematransform:org.apache.beam:kafka_write:v1, beam:schematransform:org.apache.beam:iceberg_cdc_read:v1, beam:transform:combine_per_key:v1, beam:transform:org.apache.beam:kafka_read_with_metadata:v1, beam:transform:group_by_key:v1, beam:transform:group_into_batches:v1, beam:transform:group_into_batches_with_sharded_key:v1, beam:transform:create_view:v1, beam:transform:teststream:v1, beam:transform:sdf_process_keyed_elements:v1, beam:schematransform:org.apache.beam:iceberg_write:v1, beam:transform:flatten:v1, beam:transform:impulse:v1, beam:runners_core:transforms:splittable_process:v1, beam:transform:write_files:v1, beam:transform:org.apache.beam:kafka_read_without_metadata:v1, beam:transform:managed:v1, beam:transform:redistribute_arbitrarily:v1, beam:transform:reshuffle:v1]
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered transforms:
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@5f7b97da
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18b0930f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@6b7906b3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_grouped_values:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a1dd365
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@395b56bb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_globally:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@256f8274
+INFO:apache_beam.utils.subprocess_server:       beam:external:java:generate_sequence:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@68044f4
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52d239ba
+INFO:apache_beam.utils.subprocess_server:       beam:transform:window_into:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@315f43d5
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68fa0ba8
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@6c5945a7
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2f05be7f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_per_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@640f11a1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@5c10f1c3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@7ac2e39b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@78365cfa
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches_with_sharded_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@64a8c844
+INFO:apache_beam.utils.subprocess_server:       beam:transform:create_view:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3f6db3fb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:teststream:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52de51b6
+INFO:apache_beam.utils.subprocess_server:       beam:transform:sdf_process_keyed_elements:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18c5069b
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a0d172f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:flatten:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68ad99fe
+INFO:apache_beam.utils.subprocess_server:       beam:transform:impulse:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@485e36bc
+INFO:apache_beam.utils.subprocess_server:       beam:runners_core:transforms:splittable_process:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@781f10f2
+INFO:apache_beam.utils.subprocess_server:       beam:transform:write_files:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2a79d4b1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_without_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@2e9fda69
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@17cdf2d0
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_arbitrarily:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@1755e85b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:reshuffle:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@736d6a5c
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered SchemaTransformProviders:
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:filter-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:flatten:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:map_to_fields-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:log_for_testing:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:test_schematransform:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:window_into_strategy:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:generate_sequence:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:explode:v1
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 7:42:18 AM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'ReadJson/beam:schematransform:org.apache.beam:kafka_read:v1' with URN 'beam:expansion:payload:schematransform:v1'
+INFO:apache_beam.yaml.yaml_transform:Expanding "UppercaseName" at line 18 
+INFO:apache_beam.yaml.yaml_transform:Expanding "WriteJson" at line 29 
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 7:42:24 AM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'WriteJson/beam:schematransform:org.apache.beam:kafka_write:v1' with URN 'beam:expansion:payload:schematransform:v1'
+ 
+
+NFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-4, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:35.572502876+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:35.571 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-4, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.011874945+05:30]  WARN  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.006 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : No messages retrieved with polling timeout 2 seconds. Consider increasing the consumer polling timeout using withConsumerPollingTimeout method.
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.04184068+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.037 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-4, groupId=beam-json-002] Resetting generation and member id due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.041944305+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.037 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-4, groupId=beam-json-002] Request joining group due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.129074496+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.12 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics scheduler closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.129135894+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.12 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.129149246+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.122 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.12916061+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.123 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics reporters closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.133957399+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.131 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : App info kafka.consumer for consumer-beam-json-002-4 unregistered
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.173057158+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.161 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.17318001+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.162 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-5
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.17320908+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.162 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.186574187+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.185 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.186647244+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.185 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.186674197+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.185 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547157185
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.194671787+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.185 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-5, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.19478323+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.186 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-5, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.205084638+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.201 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-5, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524520291+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.508 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524749378+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.509 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-6
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.52480098+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.509 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524868996+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.521 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524892987+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.521 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524909908+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.521 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547157521
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524929472+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.521 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-6, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.524952514+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.521 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-6, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.542001349+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.535 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-6, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.72318655+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.721 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-5, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.835014672+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.83 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.835753658+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.83 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-7
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.835785007+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.832 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.840165897+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.836 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.840444068+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.837 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.840466303+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.837 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547157836
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.84047923+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.837 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-7, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.841898433+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.837 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-7, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:37.859177857+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:37.853 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-7, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:38.070223864+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:38.069 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-6, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:38.373807182+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:12:38.372 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-7, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:42:39.054809434+05:30]  INFO  log from SDK worker
+
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:01.389 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-18, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:01.409941118+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:01.404 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-18, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:01.920569746+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:01.919 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-18, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.392068095+05:30]  WARN  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.39 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : No messages retrieved with polling timeout 2 seconds. Consider increasing the consumer polling timeout using withConsumerPollingTimeout method.
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.397265363+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.396 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-18, groupId=beam-json-002] Resetting generation and member id due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.397332101+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.396 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-18, groupId=beam-json-002] Request joining group due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.437227062+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.435 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics scheduler closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.437281509+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.435 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.437295127+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.435 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.437308021+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.435 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics reporters closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.443018864+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.44 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : App info kafka.consumer for consumer-beam-json-002-18 unregistered
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.459972487+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.456 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.460062485+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.456 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-19
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.460088516+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.457 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.469652717+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.468 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.472931598+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.468 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.472962932+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.47 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547183468
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.474868087+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.47 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.474902715+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.471 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:03.507086882+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:03.501 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:04.032720804+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:04.031 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.473902534+05:30]  WARN  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.472 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : No messages retrieved with polling timeout 2 seconds. Consider increasing the consumer polling timeout using withConsumerPollingTimeout method.
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.480952983+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.477 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Resetting generation and member id due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.481013047+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.479 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-19, groupId=beam-json-002] Request joining group due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.549748099+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.548 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics scheduler closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.550161218+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.548 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.550193997+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.548 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.550207591+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.548 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics reporters closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.553223777+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.55 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:    msg        : App info kafka.consumer for consumer-beam-json-002-19 unregistered
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.579488722+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.576 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.579548268+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.577 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-20
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.579572906+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.577 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.591314516+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.583 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.591378829+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.586 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.59139443+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.586 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547185583
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.591411204+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.587 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.591424206+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.587 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:05.606218594+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:05.6 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:06.124426161+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:06.122 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.59517069+05:30]  WARN  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.592 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : No messages retrieved with polling timeout 2 seconds. Consider increasing the consumer polling timeout using withConsumerPollingTimeout method.
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.601102004+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.599 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Resetting generation and member id due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.601155145+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.599 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-20, groupId=beam-json-002] Request joining group due to: consumer pro-actively leaving the group
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.64496733+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.64 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics scheduler closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.645100468+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.64 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.64512846+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.64 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.645143974+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.metrics.Metrics
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.64 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Metrics reporters closed
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.647833813+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.645 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : App info kafka.consumer for consumer-beam-json-002-20 unregistered
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:xxx exp buckets
+INFO:apache_beam.utils.subprocess_server:xxxx count: 1
+INFO:apache_beam.utils.subprocess_server:bucket_options {
+INFO:apache_beam.utils.subprocess_server:  exponential {
+INFO:apache_beam.utils.subprocess_server:    number_of_buckets: 17
+INFO:apache_beam.utils.subprocess_server:    scale: 1
+INFO:apache_beam.utils.subprocess_server:  }
+INFO:apache_beam.utils.subprocess_server:}
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:bucket_counts: 0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.666102125+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.beam.sdk.io.kafka.ReadFromKafkaDoFn
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.665 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Creating Kafka consumer for process continuation for KafkaSourceDescriptor{topic=m-topic, partition=0, startReadOffset=null, startReadTime=null, stopReadOffset=null, stopReadTime=null, bootStrapServers=null}
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.666706393+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.ConsumerConfig
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.665 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : ConsumerConfig values:
+INFO:apache_beam.utils.subprocess_server:       allow.auto.create.topics = true
+INFO:apache_beam.utils.subprocess_server:       auto.commit.interval.ms = 100
+INFO:apache_beam.utils.subprocess_server:       auto.include.jmx.reporter = true
+INFO:apache_beam.utils.subprocess_server:       auto.offset.reset = earliest
+INFO:apache_beam.utils.subprocess_server:       bootstrap.servers = [localhost:9092]
+INFO:apache_beam.utils.subprocess_server:       check.crcs = true
+INFO:apache_beam.utils.subprocess_server:       client.dns.lookup = use_all_dns_ips
+INFO:apache_beam.utils.subprocess_server:       client.id = consumer-beam-json-002-21
+INFO:apache_beam.utils.subprocess_server:       client.rack =
+INFO:apache_beam.utils.subprocess_server:       connections.max.idle.ms = 540000
+INFO:apache_beam.utils.subprocess_server:       default.api.timeout.ms = 60000
+INFO:apache_beam.utils.subprocess_server:       enable.auto.commit = true
+INFO:apache_beam.utils.subprocess_server:       enable.metrics.push = true
+INFO:apache_beam.utils.subprocess_server:       exclude.internal.topics = true
+INFO:apache_beam.utils.subprocess_server:       fetch.max.bytes = 52428800
+INFO:apache_beam.utils.subprocess_server:       fetch.max.wait.ms = 500
+INFO:apache_beam.utils.subprocess_server:       fetch.min.bytes = 1
+INFO:apache_beam.utils.subprocess_server:       group.id = beam-json-002
+INFO:apache_beam.utils.subprocess_server:       group.instance.id = null
+INFO:apache_beam.utils.subprocess_server:       group.protocol = classic
+INFO:apache_beam.utils.subprocess_server:       group.remote.assignor = null
+INFO:apache_beam.utils.subprocess_server:       heartbeat.interval.ms = 3000
+INFO:apache_beam.utils.subprocess_server:       interceptor.classes = []
+INFO:apache_beam.utils.subprocess_server:       internal.leave.group.on.close = true
+INFO:apache_beam.utils.subprocess_server:       internal.throw.on.fetch.stable.offset.unsupported = false
+INFO:apache_beam.utils.subprocess_server:       isolation.level = read_uncommitted
+INFO:apache_beam.utils.subprocess_server:       key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:       max.partition.fetch.bytes = 1048576
+INFO:apache_beam.utils.subprocess_server:       max.poll.interval.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       max.poll.records = 500
+INFO:apache_beam.utils.subprocess_server:       metadata.max.age.ms = 300000
+INFO:apache_beam.utils.subprocess_server:       metadata.recovery.strategy = none
+INFO:apache_beam.utils.subprocess_server:       metric.reporters = []
+INFO:apache_beam.utils.subprocess_server:       metrics.num.samples = 2
+INFO:apache_beam.utils.subprocess_server:       metrics.recording.level = INFO
+INFO:apache_beam.utils.subprocess_server:       metrics.sample.window.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+INFO:apache_beam.utils.subprocess_server:       receive.buffer.bytes = 524288
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       reconnect.backoff.ms = 50
+INFO:apache_beam.utils.subprocess_server:       request.timeout.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.max.ms = 1000
+INFO:apache_beam.utils.subprocess_server:       retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.client.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.jaas.config = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.kinit.cmd = /usr/bin/kinit
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.min.time.before.relogin = 60000
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.service.name = null
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.kerberos.ticket.renew.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.callback.handler.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.class = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.connect.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.read.timeout.ms = null
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.buffer.seconds = 300
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.min.period.seconds = 60
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.factor = 0.8
+INFO:apache_beam.utils.subprocess_server:       sasl.login.refresh.window.jitter = 0.05
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.login.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.mechanism = GSSAPI
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.clock.skew.seconds = 30
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.audience = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.expected.issuer = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.header.urlencode = false
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.jwks.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.scope.claim.name = scope
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.sub.claim.name = sub
+INFO:apache_beam.utils.subprocess_server:       sasl.oauthbearer.token.endpoint.url = null
+INFO:apache_beam.utils.subprocess_server:       security.protocol = PLAINTEXT
+INFO:apache_beam.utils.subprocess_server:       security.providers = null
+INFO:apache_beam.utils.subprocess_server:       send.buffer.bytes = 131072
+INFO:apache_beam.utils.subprocess_server:       session.timeout.ms = 45000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.max.ms = 30000
+INFO:apache_beam.utils.subprocess_server:       socket.connection.setup.timeout.ms = 10000
+INFO:apache_beam.utils.subprocess_server:       ssl.cipher.suites = null
+INFO:apache_beam.utils.subprocess_server:       ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+INFO:apache_beam.utils.subprocess_server:       ssl.endpoint.identification.algorithm = https
+INFO:apache_beam.utils.subprocess_server:       ssl.engine.factory.class = null
+INFO:apache_beam.utils.subprocess_server:       ssl.key.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keymanager.algorithm = SunX509
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.certificate.chain = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.key = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.keystore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       ssl.protocol = TLSv1.3
+INFO:apache_beam.utils.subprocess_server:       ssl.provider = null
+INFO:apache_beam.utils.subprocess_server:       ssl.secure.random.implementation = null
+INFO:apache_beam.utils.subprocess_server:       ssl.trustmanager.algorithm = PKIX
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.certificates = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.location = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.password = null
+INFO:apache_beam.utils.subprocess_server:       ssl.truststore.type = JKS
+INFO:apache_beam.utils.subprocess_server:       value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.667107634+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.telemetry.internals.KafkaMetricsCollector
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.666 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : initializing Kafka metrics collector
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.680061545+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.672 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka version: 3.9.0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.680125461+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.672 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka commitId: 84caaa6e9da06435
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.68013832+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.common.utils.AppInfoParser
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.672 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : Kafka startTimeMs: 1745547187672
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.680154477+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.672 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-21, groupId=beam-json-002] Assigned to partition(s): m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.680167666+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.672 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-21, groupId=beam-json-002] Seeking to offset 5 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:07.688447887+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:07.685 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-21, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:43:08.194822081+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:34391
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ConsumerCoordinator
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:13:08.193 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-21, groupId=beam-json-002] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+INFO:apache_beam.utils.subprocess_server:
+
+
+
+
+
+
+NFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:47905
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:15:11.483 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-30, groupId=beam-json-002] Seeking to offset 125 for partition m-topic-0
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:45:11.506059487+05:30]  INFO  log from SDK worker
+INFO:apache_beam.utils.subprocess_server:G worker:
+INFO:apache_beam.utils.subprocess_server:    ID      : job-001[job]_external_1beam:env:anyof:v1
+INFO:apache_beam.utils.subprocess_server:  * endpoint: localhost:47905
+INFO:apache_beam.utils.subprocess_server:G sdk   :
+INFO:apache_beam.utils.subprocess_server:    transformID: eexternal_1ReadJson-beam-schematransform-org-apache-beam-kafka_read-v1-KafkaIO-Read-KafkaIO-Read-KafkaIO-Read-R3_processandsplit
+INFO:apache_beam.utils.subprocess_server:    location   : org.apache.kafka.clients.Metadata
+INFO:apache_beam.utils.subprocess_server:  @ time       : 2025-04-25 02:15:11.504 +0000 UTC
+INFO:apache_beam.utils.subprocess_server:    msg        : [Consumer clientId=consumer-beam-json-002-30, groupId=beam-json-002] Cluster ID: 19CRnKh6TqOuoHX6nHz3aw
+INFO:apache_beam.utils.subprocess_server:
+Exception in thread wait_until_finish_read:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 534, in read_messages
+    for message in self._message_stream:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+        status = StatusCode.DEADLINE_EXCEEDED
+        details = "Deadline Exceeded"
+        debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Deadline Exceeded", grpc_status:4, created_time:"2025-04-25T07:45:11.945231444+05:30"}"
+>
+INFO:apache_beam.utils.subprocess_server:[2025-04-25T07:45:12.373970072+05:30]  ERROR  job failed
+INFO:apache_beam.utils.subprocess_server:G job  :
+INFO:apache_beam.utils.subprocess_server:    key : job-001
+INFO:apache_beam.utils.subprocess_server:    name: job
+INFO:apache_beam.utils.subprocess_server:E error:
+INFO:apache_beam.utils.subprocess_server:    0: bundle inst032 stage-002 failed:SDK worker disconnected: worker[job-001[job]_external_1beam:env:anyof:v1], 1 active instructions, error: context canceled
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.runners.worker.sdk_worker:No more requests from control plane
+INFO:apache_beam.runners.worker.sdk_worker:SDK Harness waiting for in-flight requests to complete
+INFO:apache_beam.runners.worker.data_plane:Closing all cached grpc data channels.
+INFO:apache_beam.runners.worker.sdk_worker:Closing all cached gRPC state handlers.
+INFO:apache_beam.runners.worker.sdk_worker:Done consuming work.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 183, in <module>
+    run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 127, in run
+    with beam.Pipeline(options=options, display_data=display_data) as p:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 646, in __exit__
+    self.result.wait_until_finish()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 569, in wait_until_finish
+    raise self._runtime_exception
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 575, in _observe_state
+    for state_response in self._state_stream:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+        status = StatusCode.DEADLINE_EXCEEDED
+        details = "Deadline Exceeded"
+        debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Deadline Exceeded", grpc_status:4, created_time:"2025-04-25T07:45:11.944204902+05:30"}"
+>
+(beamenv) Ubuntu-VM% 
+
+
+
+
+
+before error :
+
+produer sending 
+
+beamenv) Ubuntu-VM% python producer.py
+[1] Sent: {'name': 'Frank', 'age': 28, 'score': 33.2, 'active': False}
+[2] Sent: {'name': 'Eve', 'age': 41, 'score': 53.66, 'active': False}
+[3] Sent: {'name': 'Charlie', 'age': 26, 'score': 17.78, 'active': True}
+[4] Sent: {'name': 'Diana', 'age': 28, 'score': 95.31, 'active': False}
+[5] Sent: {'name': 'Ivy', 'age': 49, 'score': 6.29, 'active': True}
+[6] Sent: {'name': 'Diana', 'age': 23, 'score': 47.36, 'active': False}
+[7] Sent: {'name': 'Charlie', 'age': 29, 'score': 87.61, 'active': True}
+[8] Sent: {'name': 'Ivy', 'age': 52, 'score': 78.05, 'active': True}
+[9] Sent: {'name': 'Jack', 'age': 60, 'score': 38.86, 'active': True}
+[10] Sent: {'name': 'Jack', 'age': 22, 'score': 41.27, 'active': True}
+✅ All 100 messages sent to Kafka topic.
+(beamenv) Ubuntu-VM% python producer.py
+[1] Sent: {'name': 'Jack', 'age': 44, 'score': 17.22, 'active': True}
+[2] Sent: {'name': 'Bob', 'age': 40, 'score': 88.07, 'active': False}
+[3] Sent: {'name': 'Charlie', 'age': 50, 'score': 96.58, 'active': False}
+[4] Sent: {'name': 'Charlie', 'age': 42, 'score': 85.13, 'active': False}
+[5] Sent: {'name': 'Frank', 'age': 38, 'score': 21.55, 'active': False}
+[6] Sent: {'name': 'Grace', 'age': 24, 'score': 86.56, 'active': False}
+[7] Sent: {'name': 'Hank', 'age': 46, 'score': 39.73, 'active': True}
+[8] Sent: {'name': 'Alice', 'age': 33, 'score': 16.4, 'active': True}
+[9] Sent: {'name': 'Bob', 'age': 55, 'score': 41.94, 'active': False}
+[10] Sent: {'name': 'Frank', 'age': 36, 'score': 71.7, 'active': False}
+✅ All 100 messages sent to Kafka topic.
+(beamenv) Ubuntu-VM%  
+
+
+and consumer listening 
+
+
+(beamenv) Ubuntu-VM% python con.py 
+Listening to messages on topic 'n-topic'...
+
+Received: {'name': 'Frank', 'age': 28.0, 'name_upper': 'FRANK'}
+Received: {'name': 'Eve', 'age': 41.0, 'name_upper': 'EVE'}
+Received: {'name': 'Charlie', 'age': 26.0, 'name_upper': 'CHARLIE'}
+Received: {'name': 'Diana', 'age': 28.0, 'name_upper': 'DIANA'}
+Received: {'name': 'Ivy', 'age': 49.0, 'name_upper': 'IVY'}
+Received: {'name': 'Diana', 'age': 23.0, 'name_upper': 'DIANA'}
+Received: {'name': 'Charlie', 'age': 29.0, 'name_upper': 'CHARLIE'}
+Received: {'name': 'Ivy', 'age': 52.0, 'name_upper': 'IVY'}
+Received: {'name': 'Jack', 'age': 60.0, 'name_upper': 'JACK'}
+Received: {'name': 'Jack', 'age': 22.0, 'name_upper': 'JACK'}
+Received: {'name': 'Jack', 'age': 44.0, 'name_upper': 'JACK'}
+Received: {'name': 'Bob', 'age': 40.0, 'name_upper': 'BOB'}
+Received: {'name': 'Charlie', 'age': 50.0, 'name_upper': 'CHARLIE'}
+Received: {'name': 'Charlie', 'age': 42.0, 'name_upper': 'CHARLIE'}
+Received: {'name': 'Frank', 'age': 38.0, 'name_upper': 'FRANK'}
+Received: {'name': 'Grace', 'age': 24.0, 'name_upper': 'GRACE'}
+Received: {'name': 'Hank', 'age': 46.0, 'name_upper': 'HANK'}
+Received: {'name': 'Alice', 'age': 33.0, 'name_upper': 'ALICE'}
+Received: {'name': 'Bob', 'age': 55.0, 'name_upper': 'BOB'}
+Received: {'name': 'Frank', 'age': 36.0, 'name_upper': 'FRANK'}
+
+
+
+
+
+Things tried :
+
+python3 -m apache_beam.yaml.main --yaml_pipeline_file=pipe3.yaml --runner=PrismRunner --grpc_deadline_millis=120000 --logging_verbose
+
+
+export JAVA_OPTS="-Xmx4g"  
+
+might be docker network issue 
+
