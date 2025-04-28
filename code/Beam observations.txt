@@ -1,0 +1,144 @@
+Beam observations
+
+
+
+link : https://beam.apache.org/documentation/runners/flink/
+
+
+Flink Version Compatibility
+The Flink cluster version has to match the minor version used by the FlinkRunner. The minor version is the first two numbers in the version string, e.g. in 1.18.0 the minor version is 1.18.
+
+We try to track the latest version of Apache Flink at the time of the Beam release. A Flink version is supported by Beam for the time it is supported by the Flink community. The Flink community supports the last two minor versions. When support for a Flink version is dropped, it may be deprecated and removed also from Beam. To find out which version of Flink is compatible with Beam please see the table below:
+
+Flink Version	Artifact Id	Supported Beam Versions
+1.19.x	beam-runners-flink-1.19	≥ 2.61.0
+1.18.x	beam-runners-flink-1.18	≥ 2.57.0
+1.17.x	beam-runners-flink-1.17	≥ 2.56.0
+1.16.x	beam-runners-flink-1.16	2.47.0 - 2.60.0
+1.15.x	beam-runners-flink-1.15	2.40.0 - 2.60.0
+1.14.x	beam-runners-flink-1.14	2.38.0 - 2.56.0
+1.13.x	beam-runners-flink-1.13	2.31.0 - 2.55.0
+1.12.x	beam-runners-flink-1.12	2.27.0 - 2.55.0
+1.11.x	beam-runners-flink-1.11	2.25.0 - 2.38.0
+
+ '
+
+
+
+- JOBS
+----------------------------------------Beam K to Db job commands -----------------------------------------------------------------------------
+
+DB
+
+PS C:\tmp\beam\my-flink-project> docker exec -it docker-postgres-1 psql -U postgres -d mainschema
+psql (17.0 (Debian 17.0-1.pgdg120+1))
+Type "help" for help.
+
+mainschema=# \dt
+         List of relations
+ Schema | Name  | Type  |  Owner
+--------+-------+-------+----------
+ public | users | table | postgres
+(1 row)
+
+mainschema=# select * from users;
+ name | email
+------+-------
+(0 rows)
+
+mainschema=# \d users
+                       Table "public.users"
+ Column |          Type          | Collation | Nullable | Default
+--------+------------------------+-----------+----------+---------
+ name   | character varying(100) |           |          |
+ email  | character varying(100) |           |          |
+
+mainschema=# select * from users;
+  name   |        email
+---------+---------------------
+ Alice   | alice@example.com
+ Bob     | bob@example.com
+ Charlie | charlie@example.com
+ Alice   | alice@example.com
+ Bob     | bob@example.com
+ Charlie | charlie@example.com
+(6 rows)
+
+mainschema=#
+
+
+
+
+
+
+
+
+
+
+
+Beam 
+
+PS C:\tmp\beam\my-flink-project\docker\jar> docker cp ktd.jar docker-jobmanager-1:/ktd.jar
+Successfully copied 218MB to docker-jobmanager-1:/ktd.jar
+if only job use mainclass in pom and run direclty the jar
+PS C:\tmp\beam\my-flink-project\docker\jar> docker exec -it docker-jobmanager-1  flink run /ktd.jar --runner=FlinkRunner 
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Job has been submitted with JobID 27b3665e6b8be8482ecc4eae129f3b3e
+
+
+
+
+python 
+
+PS C:\tmp\beam\my-flink-project\producer> python .\app.py
+Messages sent.
+
+
+docker 
+
+PS C:\tmp\beam\my-flink-project\docker> docker-compose up --build -down         
+unknown shorthand flag: 'o' in -own
+PS C:\tmp\beam\my-flink-project\docker> docker-compose up --build -d
+time="2025-04-08T22:01:20+05:30" level=warning msg="C:\\tmp\\beam\\my-flink-project\\docker\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] Running 7/7
+ ✔ Network docker_default          Created                                                                                                                              0.1s 
+ ✔ Container docker-postgres-1     Started                                                                                                                              1.0s 
+ ✔ Container docker-zookeeper-1    Started                                                                                                                              1.0s 
+ ✔ Container docker-kafka-1        Started                                                                                                                              1.1s 
+ ✔ Container docker-jobmanager-1   Started                                                                                                                              1.3s 
+ ✔ Container docker-taskmanager-2  Started                                                                                                                              1.5s 
+ ✔ Container docker-taskmanager-1  Started                                                                                                                              1.9s 
+PS C:\tmp\beam\my-flink-project\docker> docker ps 
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                                NAMES
+e2ef78f91b38   flink:1.19.0-scala_2.12         "/docker-entrypoint.…"   6 seconds ago   Up 4 seconds   6123/tcp, 8081/tcp                                   docker-taskman  docker-kafka-1
+06b069130dbc   postgres:latest                 "docker-entrypoint.s…"   7 seconds ago   Up 5 seconds   0.0.0.0:5432->5432/tcp                               docker-postgres-1d7fc92117d85   wurstmeister/zookeeper:latest   "/bin/sh -c '/usr/sb…"   7 seconds ago   Up 5 seconds   22/tcp, 2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp   docker-zookeeper-1
+PS C:\tmp\beam\my-flink-project\docker>
+
+
+
+
+PS C:\tmp\beam\my-flink-project\docker\jar> docker cp ktd.jar docker-jobmanager-1:/ktd.jar
+Successfully copied 218MB to docker-jobmanager-1:/ktd.jar
+if only job use mainclass in pom and run direclty the jar
+PS C:\tmp\beam\my-flink-project\docker\jar> docker exec -it docker-jobmanager-1  flink run /ktd.jar --runner=FlinkRunner 
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Job has been submitted with JobID 27b3665e6b8be8482ecc4eae129f3b3e
+
+PS C:\tmp\beam\my-flink-project\docker\jar> docker exec -it docker-jobmanager-1   flink run -c com.example.jobs.KafkaToPostgresJob /ktd.jar --runner=FlinkRunner 
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
