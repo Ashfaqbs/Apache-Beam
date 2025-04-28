@@ -1,0 +1,207 @@
+beamenv) Ubuntu-VM% ls
+con.py  pipe2.yaml  pipe3.yaml  pipeTest.yaml  pipe.yaml  producer.py
+(beamenv) Ubuntu-VM% python3 -m apache_beam.yaml.main \
+  --yaml_pipeline_file=/home/ashu/Desktop/Ash/Code/beam-yaml/jobs/eg5/pipe3.yaml \
+  --runner=FlinkRunner \
+  --flink_master=localhost:8081 \
+  --environment_type=PROCESS \
+  --environment_config='{"command":"/usr/local/bin/beam_boot"}' \
+  --flink_submit_uber_jar \
+  --streaming
+
+Building pipeline...
+INFO:apache_beam.yaml.yaml_transform:Expanding "ReadJson" at line 6 
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-sdks-java-io-expansion-service/2.64.0/beam-sdks-java-io-expansion-service-2.64.0.jar
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Starting service with ['/home/ashu/Desktop/Ash/java/zulu17.58.21-ca-jdk17.0.15-linux_x64/bin/java' '-jar' '/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '34717' '--filesToStage=/home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar' '--alsoStartLoopbackWorker']
+INFO:apache_beam.utils.subprocess_server:Starting expansion service at localhost:34717
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 10:35:55 AM org.apache.beam.sdk.expansion.service.ExpansionService loadRegisteredTransforms
+INFO:apache_beam.utils.subprocess_server:INFO: Registering external transforms: [beam:transform:org.apache.beam:kafka_write:v2, beam:transform:org.apache.beam:kafka_read_with_metadata:v2, beam:transform:org.apache.beam:kafka_write:v1, beam:transform:combine_grouped_values:v1, beam:schematransform:org.apache.beam:iceberg_read:v1, beam:transform:combine_globally:v1, beam:external:java:generate_sequence:v1, beam:transform:redistribute_by_key:v1, beam:transform:window_into:v1, beam:schematransform:org.apache.beam:kafka_read:v1, beam:schematransform:org.apache.beam:kafka_write:v1, beam:schematransform:org.apache.beam:iceberg_cdc_read:v1, beam:transform:combine_per_key:v1, beam:transform:org.apache.beam:kafka_read_with_metadata:v1, beam:transform:group_by_key:v1, beam:transform:group_into_batches:v1, beam:transform:group_into_batches_with_sharded_key:v1, beam:transform:create_view:v1, beam:transform:teststream:v1, beam:transform:sdf_process_keyed_elements:v1, beam:schematransform:org.apache.beam:iceberg_write:v1, beam:transform:flatten:v1, beam:transform:impulse:v1, beam:runners_core:transforms:splittable_process:v1, beam:transform:write_files:v1, beam:transform:org.apache.beam:kafka_read_without_metadata:v1, beam:transform:managed:v1, beam:transform:redistribute_arbitrarily:v1, beam:transform:reshuffle:v1]
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered transforms:
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@5f7b97da
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v2: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18b0930f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@6b7906b3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_grouped_values:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a1dd365
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@395b56bb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_globally:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@256f8274
+INFO:apache_beam.utils.subprocess_server:       beam:external:java:generate_sequence:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@68044f4
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52d239ba
+INFO:apache_beam.utils.subprocess_server:       beam:transform:window_into:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@315f43d5
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68fa0ba8
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@6c5945a7
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2f05be7f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:combine_per_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@640f11a1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_with_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@5c10f1c3
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_by_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@7ac2e39b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@78365cfa
+INFO:apache_beam.utils.subprocess_server:       beam:transform:group_into_batches_with_sharded_key:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@64a8c844
+INFO:apache_beam.utils.subprocess_server:       beam:transform:create_view:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3f6db3fb
+INFO:apache_beam.utils.subprocess_server:       beam:transform:teststream:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@52de51b6
+INFO:apache_beam.utils.subprocess_server:       beam:transform:sdf_process_keyed_elements:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@18c5069b
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@3a0d172f
+INFO:apache_beam.utils.subprocess_server:       beam:transform:flatten:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@68ad99fe
+INFO:apache_beam.utils.subprocess_server:       beam:transform:impulse:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@485e36bc
+INFO:apache_beam.utils.subprocess_server:       beam:runners_core:transforms:splittable_process:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@781f10f2
+INFO:apache_beam.utils.subprocess_server:       beam:transform:write_files:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@2a79d4b1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:org.apache.beam:kafka_read_without_metadata:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForBuilder@2e9fda69
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@17cdf2d0
+INFO:apache_beam.utils.subprocess_server:       beam:transform:redistribute_arbitrarily:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@1755e85b
+INFO:apache_beam.utils.subprocess_server:       beam:transform:reshuffle:v1: org.apache.beam.sdk.expansion.service.ExpansionService$TransformProviderForPayloadTranslator@736d6a5c
+INFO:apache_beam.utils.subprocess_server:
+INFO:apache_beam.utils.subprocess_server:Registered SchemaTransformProviders:
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:filter-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:flatten:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:map_to_fields-java:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:log_for_testing:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:test_schematransform:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:kafka_write:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:window_into_strategy:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:iceberg_cdc_read:v1
+INFO:apache_beam.utils.subprocess_server:       beam:transform:managed:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:generate_sequence:v1
+INFO:apache_beam.utils.subprocess_server:       beam:schematransform:org.apache.beam:yaml:explode:v1
+WARNING:root:Waiting for grpc channel to be ready at localhost:34717.
+WARNING:root:Waiting for grpc channel to be ready at localhost:34717.
+WARNING:root:Waiting for grpc channel to be ready at localhost:34717.
+WARNING:root:Waiting for grpc channel to be ready at localhost:34717.
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 10:36:01 AM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'ReadJson/beam:schematransform:org.apache.beam:kafka_read:v1' with URN 'beam:expansion:payload:schematransform:v1'
+INFO:apache_beam.yaml.yaml_transform:Expanding "UppercaseName" at line 22 
+INFO:apache_beam.yaml.yaml_transform:Expanding "WriteJson" at line 33 
+INFO:root:Starting a JAR-based expansion service from JAR /home/ashu/.apache_beam/cache/jars/beam-sdks-java-io-expansion-service-2.64.0.jar 
+INFO:apache_beam.utils.subprocess_server:Apr 25, 2025 10:36:18 AM org.apache.beam.sdk.expansion.service.ExpansionService expand
+INFO:apache_beam.utils.subprocess_server:INFO: Expanding 'WriteJson/beam:schematransform:org.apache.beam:kafka_write:v1' with URN 'beam:expansion:payload:schematransform:v1'
+Running pipeline...
+INFO:apache_beam.runners.portability.flink_runner:Adding HTTP protocol scheme to flink_master parameter: http://localhost:8081
+INFO:apache_beam.utils.subprocess_server:Using cached job server jar from https://repo.maven.apache.org/maven2/org/apache/beam/beam-runners-flink-1.19-job-server/2.64.0/beam-runners-flink-1.19-job-server-2.64.0.jar
+INFO:apache_beam.runners.portability.abstract_job_service:Artifact server started on port 45561
+INFO:apache_beam.runners.portability.abstract_job_service:Running job 'job-15ac435f-4c54-464e-9620-19b73fa25c77'
+INFO:apache_beam.runners.portability.flink_uber_jar_job_server:Started Flink job as f0785e1fc59a5c35fb03ddfa6fdccb84
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to STOPPED
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to RUNNING
+ERROR:root:org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.util.concurrent.UncheckedExecutionException: java.lang.IllegalStateException: No container running for id 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2086)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+        at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+        at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+        at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+        at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$SynchronizedStreamTaskActionExecutor.call(StreamTaskActionExecutor.java:100)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreInternal(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restore(StreamTask.java:712)
+        at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring(Task.java:958)
+        at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke(Task.java:927)
+        at org.apache.flink.runtime.taskmanager.Task.doRun(Task.java:751)
+        at org.apache.flink.runtime.taskmanager.Task.run(Task.java:566)
+        at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.lang.IllegalStateException: No container running for id 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29
+        at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:142)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:259)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:232)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3571)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2313)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2190)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2080)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+        at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+        at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+        at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+        at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$1.call(StreamTaskActionExecutor.java:55)
+        ... 7 more
+        Suppressed: java.io.IOException: Received exit code 1 for command 'docker kill 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29'. stderr: Error response from daemon: cannot kill container: 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29: container 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29 is not running
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:255)
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:181)
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.killContainer(DockerCommand.java:161)
+                at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:166)
+                ... 27 more
+
+INFO:apache_beam.runners.portability.portable_runner:Job state changed to FAILED
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 183, in <module>
+    run()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/yaml/main.py", line 127, in run
+    with beam.Pipeline(options=options, display_data=display_data) as p:
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/pipeline.py", line 646, in __exit__
+    self.result.wait_until_finish()
+  File "/home/ashu/Desktop/Ash/Code/beam-yaml/beamenv/lib/python3.10/site-packages/apache_beam/runners/portability/portable_runner.py", line 569, in wait_until_finish
+    raise self._runtime_exception
+RuntimeError: Pipeline job-15ac435f-4c54-464e-9620-19b73fa25c77 failed in state FAILED: org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.util.concurrent.UncheckedExecutionException: java.lang.IllegalStateException: No container running for id 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2086)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+        at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+        at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+        at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+        at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$SynchronizedStreamTaskActionExecutor.call(StreamTaskActionExecutor.java:100)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreInternal(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restore(StreamTask.java:712)
+        at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring(Task.java:958)
+        at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke(Task.java:927)
+        at org.apache.flink.runtime.taskmanager.Task.doRun(Task.java:751)
+        at org.apache.flink.runtime.taskmanager.Task.run(Task.java:566)
+        at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.lang.IllegalStateException: No container running for id 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29
+        at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:142)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:259)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$1.load(DefaultJobBundleFactory.java:232)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3571)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2313)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2190)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2080)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.get(LocalCache.java:4012)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4035)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5013)
+        at org.apache.beam.vendor.guava.v32_1_2_jre.com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5020)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:458)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory$SimpleStageBundleFactory.<init>(DefaultJobBundleFactory.java:443)
+        at org.apache.beam.runners.fnexecution.control.DefaultJobBundleFactory.forStage(DefaultJobBundleFactory.java:310)
+        at org.apache.beam.runners.fnexecution.control.DefaultExecutableStageContext.getStageBundleFactory(DefaultExecutableStageContext.java:38)
+        at org.apache.beam.runners.fnexecution.control.ReferenceCountingExecutableStageContextFactory$WrappedContext.getStageBundleFactory(ReferenceCountingExecutableStageContextFactory.java:207)
+        at org.apache.beam.runners.flink.translation.wrappers.streaming.ExecutableStageDoFnOperator.open(ExecutableStageDoFnOperator.java:258)
+        at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:107)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreStateAndGates(StreamTask.java:799)
+        at org.apache.flink.streaming.runtime.tasks.StreamTask.lambda$restoreInternal$3(StreamTask.java:753)
+        at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$1.call(StreamTaskActionExecutor.java:55)
+        ... 7 more
+        Suppressed: java.io.IOException: Received exit code 1 for command 'docker kill 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29'. stderr: Error response from daemon: cannot kill container: 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29: container 6f376d8c086a0a13832561819228a56e26dfc23bd192ffafa42719ff741d4f29 is not running
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:255)
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.runShortCommand(DockerCommand.java:181)
+                at org.apache.beam.runners.fnexecution.environment.DockerCommand.killContainer(DockerCommand.java:161)
+                at org.apache.beam.runners.fnexecution.environment.DockerEnvironmentFactory.createEnvironment(DockerEnvironmentFactory.java:166)
+                ... 27 more
+
+(beamenv) Ubuntu-VM% 
