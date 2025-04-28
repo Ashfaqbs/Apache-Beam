@@ -1,0 +1,43 @@
+pipeline:
+  type: chain
+  transforms:
+
+    # 1) Read JSON from Kafka into Beam Rows
+    - type: ReadFromKafka
+      name: ReadJson
+      config:
+        topic: "m-topic"
+        bootstrap_servers: "localhost:9092" 
+        format: JSON
+        # schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"}}}'
+        schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"},"score":{"type":"number"},"active":{"type":"boolean"}}}'
+        consumer_config:
+          group.id: beam-json-002
+          auto.offset.reset: earliest
+          session.timeout.ms: "60000"  # Increase to 60 seconds
+          max.poll.interval.ms: "600000"  # Increase to 10 minutes
+          consumer_poll_timeout_ms: "10000"
+
+    # 2) Uppercase the "name" field and append as "name_upper"
+    - type: MapToFields
+      name: UppercaseName
+      config:
+        language: python
+        append: true
+        fields:
+          name_upper:
+            expression: "name.upper()"
+            output_type: string
+
+    # 3) Write back out as JSON to Kafka
+    - type: WriteToKafka
+      name: WriteJson
+      config:
+        topic: "n-topic"
+        bootstrap_servers: "localhost:9092"
+        format: JSON
+        # schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"},"name_upper":{"type":"string"}}}'
+        schema: '{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"number"},"score":{"type":"number"},"active":{"type":"boolean"},"name_upper":{"type":"string"}}}'
+
+options:
+  streaming: true
