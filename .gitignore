@@ -1,0 +1,13 @@
+code/java/my-beam-project/target/maven-archiver/pom.properties
+code/java/my-beam-project/target/classes/com/example/App.class
+code/java/my-beam-project/target/classes/com/example/dto/CleanProduct.class
+code/java/my-beam-project/target/classes/com/example/dto/ProductFlat.class
+code/java/my-beam-project/target/classes/com/example/dto/User.class
+code/java/my-beam-project/target/classes/com/example/jobs/KafkaToKafkaProductCleaner.class
+code/java/my-beam-project/target/classes/com/example/jobs/KafkaToPostgresJob.class
+code/java/my-beam-project/target/classes/com/example/jobs/KafkaToPostgresJob$1.class
+code/java/my-beam-project/target/classes/com/example/jobs/SimpleBeamJob.class
+code/java/my-beam-project/target/classes/com/example/jobs/SimpleBeamJob$1.class
+code/java/my-beam-project/target/maven-archiver/pom.properties
+code/java/my-beam-project/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+code/java/my-beam-project/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
