@@ -130,3 +130,122 @@ PS C:\tmp\beam\my-flink-project\docker\jar> docker exec -it docker-jobmanager-1 
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------KAFKA TO KAFKA ----------------------------------------------------------------------------------
+
+docker
+(base) PS C:\tmp\Apache-Beam\code\java\my-beam-project> docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                                NAMES
+7d35ad00c6b0   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   9 minutes ago   Up 9 minutes   6123/tcp, 8081/tcp                                   docker-taskmanager-2
+0b9cbc01eb57   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   9 minutes ago   Up 9 minutes   6123/tcp, 8081/tcp                                   docker-taskmanager-1
+d756581649df   apache/flink:1.19.2-java17      "/docker-entrypoint.…"   9 minutes ago   Up 9 minutes   6123/tcp, 0.0.0.0:8081->8081/tcp                     docker-jobmanager-1
+738f96d6b73e   wurstmeister/zookeeper:latest   "/bin/sh -c '/usr/sb…"   9 minutes ago   Up 9 minutes   22/tcp, 2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp   docker-zookeeper-1
+4a66713f45ca   wurstmeister/kafka:latest       "start-kafka.sh"         9 minutes ago   Up 9 minutes   0.0.0.0:9092->9092/tcp, 9093/tcp                     docker-kafka-1
+659cae6a5730   postgres:latest                 "docker-entrypoint.s…"   9 minutes ago   Up 9 minutes   0.0.0.0:5432->5432/tcp                               docker-postgres-1
+(base) PS C:\tmp\Apache-Beam\code\java\my-beam-project>
+
+
+
+Kafka
+(base) PS C:\tmp\Apache-Beam\code\java\my-beam-project> docker exec -it docker-kafka-1 bash
+root@4a66713f45ca:/#
+root@4a66713f45ca:/# kafka-topics.sh --create --topic i-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+Created topic i-topic.
+root@4a66713f45ca:/# kafka-topics.sh --create --topic o-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+Created topic o-topic.
+root@4a66713f45ca:/# kafka-topics.sh --list --bootstrap-server localhost:9092
+i-topic
+my-topic
+o-topic
+root@4a66713f45ca:/#
+
+
+
+producer
+
+PS C:\tmp\Apache-Beam\code\java\my-beam-project\producer> python .\ktkproducer.py
+Producing: {'productId': 'P4015', 'productName': 'Camera', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 331.45, 'discount': 24, 'availableStock': 28, 'rating': 2.8, 'reviewCount': 293, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P3134', 'productName': 'Smartphone', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 428.43, 'discount': 18, 'availableStock': 64, 'rating': 3.3, 'reviewCount': 234, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P9198', 'productName': 'Tablet', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 226.5, 'discount': 24, 'availableStock': 27, 'rating': 3.4, 'reviewCount': 455, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P7716', 'productName': 'Monitor', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 145.04, 'discount': 4, 'availableStock': 92, 'rating': 1.7, 'reviewCount': 189, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P6008', 'productName': 'Speaker', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 85.19, 'discount': 18, 'availableStock': 49, 'rating': 1.9, 'reviewCount': 267, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P5638', 'productName': 'Speaker', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 344.58, 'discount': 29, 'availableStock': 58, 'rating': 4.0, 'reviewCount': 144, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P5400', 'productName': 'Tablet', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 261.87, 'discount': 1, 'availableStock': 26, 'rating': 2.6, 'reviewCount': 321, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P5836', 'productName': 'Monitor', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 296.87, 'discount': 8, 'availableStock': 37, 'rating': 4.7, 'reviewCount': 411, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P4355', 'productName': 'Monitor', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 199.62, 'discount': 9, 'availableStock': 72, 'ra
+ting': 2.4, 'reviewCount': 42, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P3682', 'productName': 'Monitor', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 235.84, 'discount': 0, 'availableStock': 1, 'rat
+ing': 4.1, 'reviewCount': 52, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P8953', 'productName': 'Smartphone', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 63.45, 'discount': 30, 'availableStock': 53,
+'rating': 4.7, 'reviewCount': 133, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P5518', 'productName': 'Speaker', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 349.94, 'discount': 24, 'availableStock': 67, 'r
+ating': 1.2, 'reviewCount': 184, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Blue', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P2004', 'productName': 'Speaker', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 416.31, 'discount': 0, 'availableStock': 44, 'ra
+ting': 2.9, 'reviewCount': 301, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P1342', 'productName': 'Camera', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 128.12, 'discount': 30, 'availableStock': 21, 'ra
+ting': 1.7, 'reviewCount': 61, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P7760', 'productName': 'Tablet', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 467.04, 'discount': 26, 'availableStock': 91, 'rating': 2.9, 'reviewCount': 16, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P2523', 'productName': 'Tablet', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 88.9, 'discount': 30, 'availableStock': 91, 'rating': 2.7, 'reviewCount': 339, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'inactive', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P7274', 'productName': 'Camera', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 490.79, 'discount': 11, 'availableStock': 99, 'rating': 1.9, 'reviewCount': 280, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P4301', 'productName': 'Camera', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 234.7, 'discount': 27, 'availableStock': 90, 'rating': 4.8, 'reviewCount': 97, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P1212', 'productName': 'Camera', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 391.05, 'discount': 25, 'availableStock': 99, 'rating': 4.6, 'reviewCount': 309, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Black', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+Producing: {'productId': 'P7495', 'productName': 'Monitor', 'category': 'Electronics', 'brand': 'ABC Corp', 'price': 367.4, 'discount': 16, 'availableStock': 49, 'rating': 4.7, 'reviewCount': 191, 'currency': 'USD', 'warehouse': 'WH-A1', 'color': 'Red', 'dimensions': '10x5x3', 'status': 'active', 'releaseDate': '2023-10-01', 'updatedAt': '2025-04-29'}
+PS C:\tmp\Apache-Beam\code\java\my-beam-project\producer>
+
+
+
+consumer
+
+PS C:\tmp\Apache-Beam\code\java\my-beam-project\producer> python .\ktkcon.py
+Consuming messages from 'o-topic'...
+Received: {"id":"P6229","name":"Tablet","brand":"ABC Corp","finalPrice":95.2336,"stock":67}
+Received: {"id":"P4015","name":"Camera","brand":"ABC Corp","finalPrice":251.902,"stock":28}
+Received: {"id":"P9198","name":"Tablet","brand":"ABC Corp","finalPrice":172.14,"stock":27}
+Received: {"id":"P7716","name":"Monitor","brand":"ABC Corp","finalPrice":139.23839999999998,"stock":92}
+Received: {"id":"P5400","name":"Tablet","brand":"ABC Corp","finalPrice":259.2513,"stock":26}
+Received: {"id":"P8953","name":"Smartphone","brand":"ABC Corp","finalPrice":44.415000000000006,"stock":53}
+Received: {"id":"P2004","name":"Speaker","brand":"ABC Corp","finalPrice":416.31,"stock":44}
+Received: {"id":"P1342","name":"Camera","brand":"ABC Corp","finalPrice":89.684,"stock":21}
+Received: {"id":"P7274","name":"Camera","brand":"ABC Corp","finalPrice":436.80310000000003,"stock":99}
+Received: {"id":"P4301","name":"Camera","brand":"ABC Corp","finalPrice":171.331,"stock":90}
+Received: {"id":"P1212","name":"Camera","brand":"ABC Corp","finalPrice":293.2875,"stock":99}
+Received: {"id":"P2004","name":"Speaker","brand":"ABC Corp","finalPrice":416.31,"stock":44}
+Received: {"id":"P1342","name":"Camera","brand":"ABC Corp","finalPrice":89.684,"stock":21}
+Received: {"id":"P7274","name":"Camera","brand":"ABC Corp","finalPrice":436.80310000000003,"stock":99}
+Received: {"id":"P4301","name":"Camera","brand":"ABC Corp","finalPrice":171.331,"stock":90}
+Received: {"id":"P1212","name":"Camera","brand":"ABC Corp","finalPrice":293.2875,"stock":99}
+Received: {"id":"P7495","name":"Monitor","brand":"ABC Corp","finalPrice":308.616,"stock":49}
+
+
+
+
+Fat jar creation
+
+- mvn clean install
+- copy in jar folder as ktd.jar
+
+
+Flink job execution
+
+(base) PS C:\tmp\Apache-Beam\code\java\my-beam-project\jars> docker cp ktd.jar docker-jobmanager-1:/ktd.jar
+Successfully copied 218MB to docker-jobmanager-1:/ktd.jar
+(base) PS C:\tmp\Apache-Beam\code\java\my-beam-project\jars> docker exec -it docker-jobmanager-1   flink run -c com.example.jobs.KafkaToKafkaProductCleaner /ktd.jar --runner=FlinkRunner
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Job has been submitted with JobID 14d63e0711d29642fd482bf65ed7f2b7
+
+
+
+
+
+
+
+
+
+
+
